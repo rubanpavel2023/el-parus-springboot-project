@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>EL-PARUS ADMINISTRATION PANEL</title>
+    <link rel="icon" href="/images/logo/parus.jpg" type="image/jpeg">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            font-family: 'Montserrat', sans-serif, cursive;
+            margin: 0;
+            padding: 0;
+            background-color: #FFD700;
+            }
+
+        header {
+            text-align: center;
+            padding: -5px;
+            background-color: #FFD700;
+            color: white;
+            font-size: 22px;
+            }
+
+        h1 {
+            margin: 0;
+            color:#000080;
+            font-size: 60px;
+            }
+
+        .content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 70px;
+            width: 100%;
+            }
+
+      .button-group {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 50px;
+            position: relative;
+            flex-wrap: nowrap;
+            max-width: 1800px;
+            box-sizing: border-box;
+            }
+
+        .menu-button {
+            padding: 18px 60px;
+            font-size: 18px;
+            cursor: pointer;
+            border: none;
+            background-color: #FFD700;
+            color: white;
+            border-radius: 8px;
+            transition: all 0.3s;
+            box-shadow: 0 0 14px rgba(0, 0, 0, 0.6);
+            font-family: 'Montserrat', sans-serif, cursive;
+        }
+
+        .menu-button:hover {
+            background-color: #808080;
+            transform: translateY(-3px);
+        }
+
+        .dropdown {
+            position: relative;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            width: 100%;
+            top: 65px;
+            left: 0;
+            background-color: #808080;
+            min-width: 225px;
+            box-shadow: 0px 8px 18px rgba(0, 0, 0, 0.3);
+            z-index: 1;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-family: 'Montserrat', sans-serif, cursive;
+        }
+
+        .dropdown-content button {
+            width: 100%;
+            border: none;
+            background: none;
+            padding: 10px;
+            text-align: left;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .dropdown-content button:hover {
+            background-color: #f0f0f0;
+        }
+
+        .dropdown.show .dropdown-content {
+            display: block;
+        }
+
+        #deleteMenu button:hover {
+        background-color: red;
+        color: white;
+        }
+
+        .logout-button {
+            position: absolute;
+            top: 50px;
+            right: 20px;
+            padding: 18px 30px;
+            background-color: #f0f0f0;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s;
+        }
+
+        .logout-button:hover {
+            background-color: #808080;
+        }
+
+        .footer img {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            width: 100px;
+            height: auto;
+            border-radius: 100px;
+        }
+
+        #calculator button {
+        width: 90px;
+        height: 40px;
+        font-size: 30px;
+        border: none;
+        background-color: #808080;
+        color: white;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        }
+
+        #calculator button:hover {
+        background-color: #FFD700;
+        }
+
+        #calculator {
+        background-color: #f8f9fa;
+        }
+
+        #calc-display {
+        border: 2px solid #0A6A56;
+        color: #FFFFFF;
+        border-radius: 8px 8px 8px 8px;
+        text-align: center;
+        font-size: 40px !important;
+        }
+
+        #calculator-button {
+        position: fixed;
+        top: 50%;
+        left: -115px;
+        transform: translateY(-50%);
+        width: 140px;
+        height: 50px;
+        background-color: #808080;
+        color: white;
+        border: 2px solid #FFD700;
+        border-radius: 0px 6px 6px 0px;
+        cursor: pointer;
+        transition: left 0.3s ease-in-out, background-color 0.3s ease;
+        font-size: 18px;
+        z-index: 1050;
+        }
+
+        #calculator-button:hover {
+        left: 0;
+        background-color: #FFD700;
+        }
+
+
+        .dropdown-content {
+        position: absolute;
+        display: none;
+        background-color: #808080;
+        border: 1px solid #ccc;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        z-index: 1100;
+        }
+
+        .dropdown-content.show {
+        display: block;
+        }
+
+       .fixed-column {
+       width: 350px;
+       text-align: left;
+}
+
+    </style>
+</head>
+<body>
+<header>
+    <h1>EL-PARUS ADMINISTRATION PANEL</h1>
+</header>
+
+<button class="logout-button" onclick="window.location.href='/'">EXIT</button>
+
+<div id="calculator" style="display: none; position: fixed; bottom: 50px; left: 91%; transform: translateX(-50%); padding: 23px;
+background-color: #f0f0f0; border-radius: 25px; box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); width: 280px;z-index: 1100;">
+
+    <input type="text" id="calc-display"
+           style="width: 90%; padding: 15px; font-size: 24px; margin: 0 auto 20px; display: block; text-align: right;"
+           readonly>
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px;">
+
+        <button onclick="appendNumber('7')">7</button>
+        <button onclick="appendNumber('8')">8</button>
+        <button onclick="appendNumber('9')">9</button>
+
+        <button onclick="appendNumber('4')">4</button>
+        <button onclick="appendNumber('5')">5</button>
+        <button onclick="appendNumber('6')">6</button>
+
+        <button onclick="appendNumber('1')">1</button>
+        <button onclick="appendNumber('2')">2</button>
+        <button onclick="appendNumber('3')">3</button>
+
+        <button onclick="appendNumber('0')">0</button>
+        <button onclick="clearDisplay()">C</button>
+        <button onclick="performOperation('+')">+</button>
+
+        <button onclick="performOperation('/')">/</button>
+        <button onclick="performOperation('*')">*</button>
+        <button onclick="performOperation('-')">-</button>
+
+        <button onclick="closeCalculator()" style="grid-column: span 2;">Close</button>
+        <button class="calculate-button" onclick="calculate()">=</button>
+
+    </div>
+</div>
+
+<button id="calculator-button" onclick="openCalculator()">Calculator</button>
+
+<div class="content">
+    <div class="button-group">
+
+        <div class="dropdown">
+            <button class="menu-button" onclick="toggleMenu('viewGoodsMenu')">View goods</button>
+            <div class="dropdown-content" id="viewGoodsMenu">
+                <button onclick="viewAllGoods()">All goods in stock</button>
+                <button onclick="viewGoodsByArticle()">By article</button>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <button class="menu-button" onclick="toggleMenu('viewOrdersMenu')">View orders</button>
+            <div class="dropdown-content" id="viewOrdersMenu">
+                <button onclick="viewAllOrders()">All orders</button>
+                <button onclick="viewOrdersByPhone()">By buyer's phone number</button>
+                <button onclick="viewPlacedOrders()">By status 'reserved'</button>
+                <button onclick="viewDeliveredOrders()">By status 'completed'</button>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <button class="menu-button" onclick="toggleMenu('cartsMenu')">Active carts</button>
+            <div class="dropdown-content" id="cartsMenu">
+                <button onclick="viewAllCarts()">View all carts</button>
+                <button onclick="deleteAllCarts()">Delete all carts</button>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <button class="menu-button" onclick="toggleMenu('setCompletedMenu')">Closing orders</button>
+            <div class="dropdown-content" id="setCompletedMenu">
+                <button onclick="setStatusCompleted()">Set status 'completed' by customer's phone number</button>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <button class="menu-button" onclick="toggleMenu('deleteMenu')">Deleting orders</button>
+            <div class="dropdown-content" id="deleteMenu">
+                <button onclick="deleteOrderByPhoneAndStatusReserved()">By phone only 'reserved'</button>
+                <button onclick="deleteAllDeliveredOrders()">All by status 'completed'</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <img src="/images/logo/parus.jpg" alt="logo">
+    </div>
+</div>
+
+<script>
+
+    function toggleMenu(menuId) {
+        const menus = document.querySelectorAll('.dropdown-content');
+        menus.forEach(menu => {
+            if (menu.id !== menuId) {
+                menu.parentElement.classList.remove('show');
+            }
+        });
+        document.getElementById(menuId).parentElement.classList.toggle('show');
+    }
+
+async function viewAllGoods() {
+    try {
+        const response = await fetch('/goods/all');
+        if (!response.ok) {
+            throw new Error("Error loading all goods");
+        }
+        const goods = await response.json();
+        displayGoods(goods);
+    } catch (error) {
+        alert("Error: " + error.message);
+    }
+}
+
+async function viewGoodsByArticle() {
+    const article = prompt("Enter the goods article:");
+    if (!article) {
+        alert("You have not entered the article number");
+        return;
+    }
+    const response = await fetch(`/goods/article/${article}`);
+    if (response.ok && response.headers.get("content-length") !== "0") {
+        const goods = await response.json();
+        displayGoods(goods ? [goods] : []);
+    } else {
+        displayGoods([]);
+    }
+}
+
+function displayGoods(goods){
+    const modalHtml = `
+        <div id="goodsModal" style="position: fixed; top: 22%; left: 50%; transform: translate(-50%, 0); width: 92%; height: 75%;
+        background: rgba(255, 255, 255, 0.95); border-radius: 10px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); overflow-y: auto; z-index: 1000;">
+            <div style="padding: 20px;">
+                <table style="width: 100%; border-collapse: collapse; text-align: left;">
+                    <thead style="position: sticky; top: 0; z-index: 1;">
+                        <tr style="background-color: #808080;">
+                            <th style="border: 1px solid #ddd; padding: 8px;">ID</th>
+                            <th style="border: 1px solid #ddd; padding: 8px;">Article</th>
+                            <th style="border: 1px solid #ddd; padding: 8px;">Name</th>
+                            <th style="border: 1px solid #ddd; padding: 8px;">Category</th>
+                            <th style="border: 1px solid #ddd; padding: 8px;">Size</th>
+                            <th style="border: 1px solid #ddd; padding: 8px;">Quantity</th>
+                            <th style="border: 1px solid #ddd; padding: 8px;">Price</th>
+                            <th style="border: 1px solid #ddd; padding: 8px;">Currency</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${
+                            goods.length === 0
+                                ? `<tr><td colspan="8" style="text-align: center; padding: 10px;">No goods to display.</td></tr>`
+                                : goods.map(item => `
+                                    <tr>
+                                        <td style="border: 1px solid #ddd; padding: 8px;">${item.id}</td>
+                                        <td style="border: 1px solid #ddd; padding: 8px;">${item.article}</td>
+                                        <td style="border: 1px solid #ddd; padding: 8px;">${item.name}</td>
+                                        <td style="border: 1px solid #ddd; padding: 8px;">${item.category}</td>
+                                        <td style="border: 1px solid #ddd; padding: 8px;">${item.size}</td>
+                                        <td style="border: 1px solid #ddd; padding: 8px;">${item.quantity}</td>
+                                        <td style="border: 1px solid #ddd; padding: 8px;">${item.price.toFixed(2)}</td>
+                                        <td style="border: 1px solid #ddd; padding: 8px;">${item.currency}</td>
+
+                                    </tr>
+                                `).join('')
+                        }
+                    </tbody>
+                </table>
+                <button onclick="closeGoodsModal()" style="margin-top: 20px; padding: 10px 20px;
+                background: #FFD700; color: white; border: none; border-radius: 4px;">Close</button>
+            </div>
+        </div>
+    `;
+    document.body.insertAdjacentHTML('beforeend', modalHtml);
+}
+
+function closeGoodsModal() {
+    const modal = document.getElementById('goodsModal');
+    if (modal) {
+        modal.remove();
+    }
+}
+
+async function viewAllOrders() {
+    try {
+        const response = await fetch("/order/all");
+        if (!response.ok) {
+            throw new Error("Error loading orders");
+        }
+
+        const orders = await response.json();
+        displayOrders(orders.length ? orders : []);
+    } catch (error) {
+        alert("Error: " + error.message);
+    }
+}
+
+async function viewOrdersByPhone() {
+    const phone = prompt("Enter the customer's phone number: ");
+    if (!phone) {
+        alert("You have not entered a phone number");
+        return;
+    }
+    try {
+        const response = await fetch(`/order/phone/${phone}`);
+        if (!response.ok) {
+            throw new Error("Error loading orders ");
+        }
+        const orders = await response.json();
+        displayOrders(orders.length ? orders : []);
+    } catch (error) {
+        alert("Error: " + error.message);
+    }
+}
+
+async function viewPlacedOrders() {
+    try {
+        const response = await fetch("/order/status/reserved");
+        if (!response.ok) {
+            throw new Error("Error loading reserved orders ");
+        }
+        let orders = await response.json();
+        if (!orders) {
+            orders = [];
+        } else if (!Array.isArray(orders)) {
+            orders = [orders];
+        }
+        displayOrders(orders);
+    } catch (error) {
+        alert("Error : " + error.message);
+    }
+}
+
+async function viewDeliveredOrders() {
+    try {
+        const response = await fetch("/order/status/completed");
+        if (!response.ok) {
+            throw new Error("Error loading completed orders ");
+        }
+        let orders = await response.json();
+        if (!orders) {
+            orders = [];
+        } else if (!Array.isArray(orders)) {
+            orders = [orders];
+        }
+        displayOrders(orders);
+    } catch (error) {
+        alert("Error: " + error.message);
+    }
+}
+
+function displayOrders(orders) {
+    const modalHtml = `
+        <div id="orderModal" style="position: fixed; top: 22%; left: 50%; transform: translate(-50%, 0); width: 92%; height: 75%;
+        background: rgba(255, 255, 255, 0.95); border-radius: 10px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); overflow-y: auto; z-index: 1000;">
+            <div style="padding: 20px;">
+
+                <table style="width: 100%; border-collapse: collapse; text-align: left;">
+                    <thead style="position: sticky; top: 0; z-index: 1;">
+                        <tr style="background-color: #808080;">
+                            <th style="border: 1px solid #ddd; padding: 8px;">Order Number</th>
+                            <th style="border: 1px solid #ddd; padding: 8px;">First and Last Name</th>
+                            <th style="border: 1px solid #ddd; padding: 8px;">Telephone</th>
+                            <th style="border: 1px solid #ddd; padding: 8px;">Goods</th>
+                            <th style="border: 1px solid #ddd; padding: 8px;">Date</th>
+                            <th style="border: 1px solid #ddd; padding: 8px;">Sum</th>
+                            <th style="border: 1px solid #ddd; padding: 8px;">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${
+                            orders.length === 0
+                                ? `<tr><td colspan="7" style="text-align: center; padding: 10px;">No orders to display.</td></tr>`
+                                : orders.map(order => `
+                                    <tr>
+                                        <td style="border: 1px solid #ddd; padding: 8px;">${order.id}</td>
+                                        <td style="border: 1px solid #ddd; padding: 8px;">${order.customerName}</td>
+                                        <td style="border: 1px solid #ddd; padding: 8px;">${order.customerPhone}</td>
+                                        <td style="border: 1px solid #ddd; padding: 8px;">${order.itemsDescription}</td>
+                                        <td style="border: 1px solid #ddd; padding: 8px;">${new Date(order.orderDate).toLocaleString()}</td>
+                                        <td style="border: 1px solid #ddd; padding: 8px;">${order.totalPrice?.toFixed(2)} USD</td>
+                                        <td style="border: 1px solid #ddd; padding: 8px;">${order.status}</td>
+                                    </tr>
+                                `).join('')
+                        }
+                    </tbody>
+                </table>
+                <button onclick="closeOrderModal()" style="margin-top: 20px; padding: 10px 20px;
+                background: #FFD700; color: white; border: none; border-radius: 4px;">Close</button>
+            </div>
+        </div>
+    `;
+    document.body.insertAdjacentHTML('beforeend', modalHtml);
+}
+
+function closeOrderModal() {
+    const modal = document.getElementById('orderModal');
+    if (modal) {
+        modal.remove();
+    }
+}
+
+async function deleteOrderByPhoneAndStatusReserved() {
+    const phone = prompt("Enter the customer's phone number: ");
+    if (!phone) {
+        alert("You have not entered a phone number");
+        return;
+    }
+    try {
+        const response = await fetch(`/order/phone/${phone}/reserved`);
+        if (!response.ok) {
+            throw new Error("Error loading orders ");
+        }
+        const orders = await response.json();
+        displayOrdersWithButtonDelete(orders.length ? orders : []);
+    } catch (error) {
+        alert("Error: " + error.message);
+    }
+}
+
+function displayOrdersWithButtonDelete(orders) {
+    const modalHtml = `
+        <div id="orderModal" style="position: fixed; top: 22%; left: 50%; transform: translate(-50%, 0); width: 92%; height: 75%;
+        background: rgba(255, 255, 255, 0.95); border-radius: 10px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); overflow-y: auto; z-index: 1000;">
+            <div style="padding: 20px;">
+                ${
+                    !orders || orders.length === 0
+                        ? `<div style="text-align: center; padding: 10px; font-size: 16px;">No orders to display.</div>`
+                        : orders.map(order => `
+                            <div style="border: 2px solid #808080; margin-bottom: 20px; border-radius: 8px; padding: 15px;">
+                                <table style="width: 100%; border-collapse: collapse; text-align: left; border: 1px solid #ccc;">
+                                    <thead>
+                                        <tr style="background-color: #808080; color: white;">
+                                            <th style="border: 1px solid #ddd; padding: 8px;">Order Number</th>
+                                            <th class="fixed-column" style="border: 1px solid #ddd; padding: 8px;">First and Last Name</th>
+                                            <th style="border: 1px solid #ddd; padding: 8px;">Telephone</th>
+                                            <th class="fixed-column" style="border: 1px solid #ddd; padding: 8px;">Goods</th>
+                                            <th style="border: 1px solid #ddd; padding: 8px;">Date</th>
+                                            <th class="fixed-column" style="border: 1px solid #ddd; padding: 8px;">Sum</th>
+                                            <th style="border: 1px solid #ddd; padding: 8px;">Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td style="border: 1px solid #ddd; padding: 8px;">${order.id}</td>
+                                            <td class="fixed-column" style="border: 1px solid #ddd; padding: 8px;">${order.customerName}</td>
+                                            <td style="border: 1px solid #ddd; padding: 8px;">${order.customerPhone}</td>
+                                            <td class="fixed-column" style="border: 1px solid #ddd; padding: 8px;">${order.itemsDescription}</td>
+                                            <td style="border: 1px solid #ddd; padding: 8px;">${new Date(order.orderDate).toLocaleString()}</td>
+                                            <td class="fixed-column" style="border: 1px solid #ddd; padding: 8px;">${order.totalPrice?.toFixed(2)} USD</td>
+                                            <td style="border: 1px solid #ddd; padding: 8px;">${order.status}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div style="text-align: right; margin-top: 10px;">
+                                    <button onclick="deleteOrder(${order.id})"
+                                        style="background-color: #dc3545; color: white; padding: 10px 20px; border: none; border-radius: 4px; width: 100px;">
+                                        Delete
+                                    </button>
+                                </div>
+                            </div>
+                        `).join('')
+                }
+                <div style="margin-top: 40px; text-align: left;">
+                    <button onclick="closeOrderModal()" style="padding: 10px 20px; background: #FFD700; color: white; border: none; border-radius: 4px;">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+    document.body.insertAdjacentHTML('beforeend', modalHtml);
+}
+
+function closeOrderModal() {
+    const modal = document.getElementById('orderModal');
+    if (modal) {
+        modal.remove();
+    }
+}
+
+async function deleteOrder(orderId) {
+    if (confirm("Are you sure you want to delete order № " + orderId + "?")) {
+        try {
+            const response = await fetch(`/order/${orderId}/delete`, {
+                method: "DELETE",
+                headers: { "Content-Type": "application/json" },
+            });
+            const data = await response.json();
+            alert(data.message);
+        } catch (error) {
+            alert("Error: " + error.message);
+        }
+    }
+}
+
+async function deleteAllDeliveredOrders() {
+    if (confirm("Are you sure you want to delete all orders with the status 'Completed'?")) {
+        try {
+            const response = await fetch(`/order/delete/completed`, {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+            });
+            const data = await response.json();
+            alert(data.message);
+        } catch (error) {
+            alert("Error: " + error.message);
+        }
+    }
+}
+
+async function deleteAllCarts() {
+    if (confirm("Are you sure you want to delete all carts customers?")) {
+        try {
+            const response = await fetch("/cart/delete/all", {
+                method: "DELETE",
+                headers: { "Content-Type": "application/json" },
+            });
+            const result = await response.json();
+            alert(result.message);
+        } catch (error) {
+            alert("Error: " + error.message);
+            }
+            }
+            }
+
+async function viewAllCarts() {
+    const cartDataResponse = await fetch("/cart/data");
+    const cartData = await cartDataResponse.json();
+    const cartItems = cartData.cartItems || [];
+    const sessionTotals = cartData.sessionTotals || [];
+    const totalAmountResponse = await fetch("/cart/total-amount");
+    const totalAmount = await totalAmountResponse.json() ?? 0.0;
+    displayCarts(cartItems, sessionTotals, totalAmount);
+}
+
+function displayCarts(cartItems, sessionTotals, totalAmount) {
+    let modalHtml = `
+        <div id="cartModal" style="position: fixed; top: 22%; left: 50%; transform: translate(-50%, 0); width: 92%; height: 75%;
+        background: rgba(255, 255, 255, 0.95); border-radius: 10px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); overflow-y: auto; z-index: 1000;">
+            <div style="padding: 20px;">
+    `;
+
+    let groupedCarts = [];
+    let currentCart = [];
+
+    cartItems.forEach((item, index) => {
+        currentCart.push(item);
+
+        if ((index + 1) % 3 === 0 || index === cartItems.length - 1) {
+            groupedCarts.push([...currentCart]);
+            currentCart = [];
+        }
+    });
+
+    let sessionIndex = 1;
+
+    function formatToLocalTime(isoTime) {
+        if (!isoTime) return "N/A";
+        const date = new Date(isoTime);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const day = String(date.getDate()).padStart(2, "0");
+        const hours = String(date.getHours()).padStart(2, "0");
+        const minutes = String(date.getMinutes()).padStart(2, "0");
+        const seconds = String(date.getSeconds()).padStart(2, "0");
+        return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+    }
+
+    for (const items of groupedCarts) {
+        const sessionTotal = items.reduce((sum, item) => sum + (item.totalPricePosition || 0), 0);
+
+        modalHtml += `
+            <div style="border: 2px solid #808080; margin-bottom: 20px; border-radius: 8px; padding: 10px;">
+                <h3 style="text-align: left; color: #505050; margin-bottom: 10px;">
+                    Cart #${sessionIndex}
+                </h3>
+                <table style="width: 100%; border-collapse: collapse; text-align: left; border: 1px solid #ccc;">
+                    <thead>
+                        <tr style="background-color: #808080; color: white;">
+                            <th>Created Time</th>
+                            <th>Name</th>
+                            <th>Size</th>
+                            <th>Article</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th>Total Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+        `;
+
+        items.forEach(item => {
+            modalHtml += `
+                <tr>
+                    <td>${formatToLocalTime(item.created_time)}</td>
+                    <td>${item.name ?? "N/A"}</td>
+                    <td>${item.size ?? "N/A"}</td>
+                    <td>${item.article ?? "N/A"}</td>
+                    <td>${item.quantity ?? 0}</td>
+                    <td>${item.price_per_unit?.toFixed(2) || "0.00"} USD</td>
+                    <td>${item.totalPricePosition?.toFixed(2) || "0.00"} USD</td>
+                </tr>
+            `;
+        });
+
+        modalHtml += `
+                    </tbody>
+                    <tfoot>
+                        <tr style="font-weight: bold; background-color: #f0f0f0;">
+                            <td colspan="7" style="text-align: right;">
+                                Total cost for Cart #${sessionIndex}: ${sessionTotal.toFixed(2)} USD
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        `;
+
+        sessionIndex++;
+    }
+
+    if (!cartItems.length) {
+        modalHtml += `
+            <div style="text-align: center; font-style: italic; color: gray; margin-bottom: 20px;">
+                There are currently no active carts
+            </div>
+        `;
+    }
+    modalHtml += `
+                <div style="margin-top: 20px; font-size: 18px; text-align: right; font-weight: bold;">
+                    Total amount: ${totalAmount.toFixed(2)} USD
+                </div>
+                <button onclick="closeCartModal()" style="margin-top: 20px; padding: 10px 20px;
+                background: #FFD700; color: white; border: none; border-radius: 4px;">Close</button>
+            </div>
+        </div>
+    `;
+    document.body.insertAdjacentHTML('beforeend', modalHtml);
+    }
+
+    function closeCartModal() {
+    document.getElementById("cartModal")?.remove();
+    }
+
+
+    async function setStatusCompleted() {
+    const phone = prompt("Enter the buyer's phone number: ");
+    if (!phone) {
+        alert("You have not entered a phone number");
+        return;
+    }
+    try {
+        const response = await fetch(`/order/phone/${phone}/completed`);
+        if (!response.ok) {
+            throw new Error("Error loading orders ");
+        }
+        const orders = await response.json();
+        displayOrdersWithButton(orders.length ? orders : []);
+    } catch (error) {
+        alert("Error: " + error.message);
+    }
+    }
+
+function displayOrdersWithButton(orders) {
+    const modalHtml = `
+        <div id="orderModal" style="position: fixed; top: 22%; left: 50%; transform: translate(-50%, 0); width: 92%; height: 75%;
+        background: rgba(255, 255, 255, 0.95); border-radius: 10px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); overflow-y: auto; z-index: 1000;">
+            <div style="padding: 20px;">
+                ${
+                    orders.length === 0
+                        ? `<div style="text-align: center; padding: 10px; font-size: 16px;">No orders to display.</div>`
+                        : orders.map(order => `
+                            <div style="border: 2px solid #808080; margin-bottom: 20px; border-radius: 8px; padding: 15px;">
+                                <table style="width: 100%; border-collapse: collapse; text-align: left; border: 1px solid #ccc;">
+                                    <thead>
+                                        <tr style="background-color: #808080; color: white;">
+                                            <th style="border: 1px solid #ddd; padding: 8px;">Order Number</th>
+                                            <th class="fixed-column" style="border: 1px solid #ddd; padding: 8px;">First and Last Name</th>
+                                            <th style="border: 1px solid #ddd; padding: 8px;">Telephone</th>
+                                            <th class="fixed-column" style="border: 1px solid #ddd; padding: 8px;">Goods</th>
+                                            <th style="border: 1px solid #ddd; padding: 8px;">Date</th>
+                                            <th class="fixed-column" style="border: 1px solid #ddd; padding: 8px;">Sum</th>
+                                            <th style="border: 1px solid #ddd; padding: 8px;">Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td " style="border: 1px solid #ddd; padding: 8px;">${order.id}</td>
+                                            <td class="fixed-column" style="border: 1px solid #ddd; padding: 8px;">${order.customerName}</td>
+                                            <td style="border: 1px solid #ddd; padding: 8px;">${order.customerPhone}</td>
+                                            <td class="fixed-column" style="border: 1px solid #ddd; padding: 8px;">${order.itemsDescription}</td>
+                                            <td style="border: 1px solid #ddd; padding: 8px;">${new Date(order.orderDate).toLocaleString()}</td>
+                                            <td class="fixed-column" style="border: 1px solid #ddd; padding: 8px;">${order.totalPrice?.toFixed(2)} USD</td>
+                                            <td style="border: 1px solid #ddd; padding: 8px;">${order.status}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div style="text-align: right; margin-top: 10px;">
+                                    <button onclick="markAsCompleted(${order.id})"
+                                        style="background-color: #28a745; color: white; padding: 10px 20px; border: none; border-radius: 4px;">
+                                        Completed
+                                    </button>
+                                </div>
+                            </div>
+                        `).join('')
+                }
+                <div style="margin-top: 40px; text-align: left;">
+                    <button onclick="closeOrderModal()" style="padding: 10px 20px; background: #FFD700; color: white; border: none; border-radius: 4px; width: 100px;">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+    document.body.insertAdjacentHTML('beforeend', modalHtml);
+}
+
+function closeOrderModal() {
+    const modal = document.getElementById('orderModal');
+    if (modal) {
+        modal.remove();
+    }
+}
+
+async function markAsCompleted(orderId) {
+if (confirm("Are you sure you want to set the status 'completed' for order " + orderId + "?")) {
+    try {
+        const response = await fetch(`/order/${orderId}/completed`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+        });
+        const data = await response.json();
+        alert(data.message);
+    } catch (error) {
+        alert("Error: " + error.message);
+    }
+    }
+    }
+
+
+    window.onclick = function(event) {
+        if (!event.target.matches('.menu-button')) {
+            const dropdowns = document.querySelectorAll('.dropdown-content');
+            dropdowns.forEach(menu => menu.parentElement.classList.remove('show'));
+        }
+    };
+
+    let calcDisplay = document.getElementById("calc-display");
+    let currentNumber = "";
+    let previousNumber = "";
+    let operator = "";
+
+    function appendNumber(num) {
+        currentNumber += num;
+        calcDisplay.value = currentNumber;
+    }
+
+    function performOperation(op) {
+        previousNumber = currentNumber;
+        currentNumber = "";
+        operator = op;
+    }
+
+    function calculate() {
+        let result = 0;
+        const prev = parseFloat(previousNumber);
+        const curr = parseFloat(currentNumber);
+
+        switch (operator) {
+            case "+":
+                result = prev + curr;
+                break;
+            case "-":
+                result = prev - curr;
+                break;
+            case "*":
+                result = prev * curr;
+                break;
+            case "/":
+                result = prev / curr;
+                break;
+        }
+
+        calcDisplay.value = result;
+        currentNumber = result.toString();
+        previousNumber = "";
+        operator = "";
+    }
+
+    function clearDisplay() {
+        calcDisplay.value = "";
+        currentNumber = "";
+        previousNumber = "";
+        operator = "";
+    }
+
+    function openCalculator() {
+        document.getElementById("calculator").style.display = "block";
+    }
+
+    function closeCalculator() {
+        document.getElementById("calculator").style.display = "none";
+    }
+</script>
+</body>
+</html>

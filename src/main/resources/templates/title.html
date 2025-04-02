@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Title Page</title>
+    <link rel="icon" href="/images/logo/parus.jpg" type="image/jpeg">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&display=swap" rel="stylesheet">
+
+
+    <style>
+        :root {
+          --banner-height: 300px;
+          --banner-padding-left: 25px;
+          --el-parus-font-size: 115px;
+          --shopping-font-size: 90px;
+          --button-bg: #333333;
+          --button-border-width: 2px;
+          --button-border-color: #FFFFFF;
+          --button-text-color: #FFFFFF;
+          --button-hover-bg: #FFFFFF;
+          --button-hover-border-color: #000000;
+          --button-hover-text-color: #FFFFFF;
+        }
+
+        html, body {
+          margin: 0;
+          padding: 0;
+          width: 100%;
+          height: 100%;
+          font-family: Arial, sans-serif;
+          background-color: #E6E6FA;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          overflow-x: hidden;
+        }
+
+        .top-banner {
+          margin-top: 3cm;
+          width: 100%;
+          height: var(--banner-height);
+          background-color: #FFD700;
+          position: relative;
+          display: flex;
+          align-items: center;
+          padding-left: var(--banner-padding-left);
+        }
+
+        .banner-text {
+          line-height: 1.2;
+        }
+
+        .el-parus-text {
+          display: block;
+          font-family: 'Montserrat', sans-serif, cursive;
+          font-size: var(--el-parus-font-size);
+          font-weight: bold;
+          color: #000080;
+          max-height: var(--banner-height);
+          overflow: hidden;
+        }
+
+        .shopping-text {
+          display: block;
+          font-family: 'Montserrat', sans-serif;
+          font-size: var(--shopping-font-size);
+          font-weight: bold;
+          color: #FFFFFF;
+        }
+
+        .logo {
+          position: absolute;
+          left: 40px;
+          top:  -18%;
+          transform: translateY(-50%);
+          height: 90px;
+          width: 90p;
+          border-radius: 100px;
+          background-color: transparent;
+        }
+
+        .title-photo {
+          position: absolute;
+          right: 25px;
+          top: 0%;
+          height: 100%;
+          max-height: var(--banner-height);
+        }
+
+        .title-photo2 {
+          position: absolute;
+          right: 480px;
+          top: 0%;
+          height: 100%;
+          max-height: var(--banner-height);
+        }
+
+        .admin-button {
+          position: absolute;
+          top: -90px;
+          right: 210px;
+          font-size: 1.1rem;
+          padding: 20px 30px;
+          background-color: var(--button-hover-bg);
+          color: var(--button-hover-text-color);
+          font-weight: 200;
+          border: var(--button-border-width) solid var(--button-hover-border-color);
+          border-radius: 12px;
+          border-color: #FFFFFF;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          font-family: 'Montserrat', sans-serif;
+        }
+
+        .admin-button:hover {
+          background-color: #FFFFFF;
+          color: #FFD700;
+          border-color: #FFFFFF;
+        }
+
+        .cart-button {
+          position: absolute;
+          top: -90px;
+          right: 60px;
+          font-size: 1.1rem;
+          padding: 20px 30px;
+          background-color: var(--button-hover-bg);
+          color: #000080;
+          font-weight: 600;
+          border: var(--button-border-width) solid var(--button-hover-border-color);
+          border-radius: 12px;
+          border-color: #FFFFFF;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          font-family: 'Montserrat', sans-serif;
+        }
+
+        .cart-button:hover {
+          background-color: #FFFFFF;
+          color: #000080;
+          border-color: #FFFFFF;
+          color: #FFD700;
+        }
+
+        .center-text {
+          text-align: center;
+          font-size: 4rem;
+          font-weight: bold;
+          line-height: 1.4;
+          margin-top: 2cm;
+          color: #FFD700;
+          font-family: 'Montserrat', sans-serif;
+        }
+
+        .button-container {
+          display: flex;
+          justify-content: space-around;
+          width: calc(100% - 14cm);
+          margin: 0 auto;
+          margin-top: 0cm;
+        }
+
+        .button-container button {
+          font-size: 1.8rem;
+          padding: 20px 40px;
+          cursor: pointer;
+          border: 2px solid #FFD700;
+          background-color: #FFFFFF;
+          color: #FFD700;
+          border-radius: 12px;
+          transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+          font-family: 'Montserrat', sans-serif;
+          animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+          0%, 100% {
+            transform: translateY(0);
+          }
+          50% {
+            transform: translateY(-10px);
+          }
+        }
+
+        .button-container button:hover {
+          background-color: #738075;
+          color: #FFFFFF;
+          border-color: #FFFFFF;
+        }
+
+        .separator-bottom {
+          width: 100%;
+          height: 2cm;
+          background-color: #FFFFFF;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+
+        .phone-text {
+          font-size: 1rem;
+          font-weight: bold;
+          color: #738075;
+        }
+    </style>
+</head>
+<body>
+<div class="top-banner">
+    <div class="banner-text">
+        <span class="el-parus-text">EL-PARUS</span>
+        <span class="shopping-text">FASHION STORE</span>
+    </div>
+    <img src="/images/logo/parus.jpg" alt="Logo" class="logo">
+    <img src="/images/title/titlefoto2.jpg" alt="Title Photo 2" class="title-photo2">
+    <img src="/images/title/titlefoto.jpg" alt="Title Photo" class="title-photo">
+    <button class="admin-button" onclick="window.location.href='/adminLogin'">ADMIN</button>
+    <button class="cart-button" onclick="goToCart()">CART</button>
+</div>
+
+<div class="center-text">
+    CLOTHES AND SHOES FROM FAMOUS BRANDS
+</div>
+
+<div class="button-container">
+    <button onclick="window.location.href='/assortmentGucci'">Gucci</button>
+    <button onclick="window.location.href='/assortmentChanel'">Chanel</button>
+    <button onclick="window.location.href='/assortmentMKors'">Michael Kors</button>
+    <button onclick="window.location.href='/assortmentBurberry'">Burberry</button>
+</div>
+
+<div class="separator-bottom">
+    <span class="phone-text">tel: +38 067 333 22 77 | Dnipro, Ukraine</span>
+</div>
+
+<script>
+    function goToCart() {
+        window.location.href = '/cart';
+    }
+</script>
+</body>
+</html>
+
+

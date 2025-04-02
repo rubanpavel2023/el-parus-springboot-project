@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>assortmentMKors</title>
+    <link rel="icon" href="/images/logo/parus.jpg" type="image/jpeg">
+    <meta charset="UTF-8">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Montserrat:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cookie&display=swap');
+
+        body {
+            background-color: #003366;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        .product {
+            margin-bottom: 20px;
+            display: inline-block;
+            margin-left: 2cm;
+            margin-right: 2cm;
+        }
+        .product h2 {
+            text-align: center;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        .header img {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 500px;
+            height: auto;
+        }
+        h1 {
+            margin-bottom: 0cm;
+            text-align: center;
+            font-size: 5rem;
+            color: #738075;
+            font-weight: 900;
+        }
+        .button-container {
+            margin-top: 2cm;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 5cm;
+
+        }
+        button {
+            font-size: 2rem;
+            padding: 20px 90px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 14px rgba(0, 0, 0, 0.6);
+            border: 2px solid transparent;
+            font-family: 'Roboto', sans-serif;
+            border-radius: 12px;
+            color: #FFA500;
+            font-size: 1rem;
+            background-color: #003366;
+        }
+
+        button:hover {
+            animation: pulse 0.7s infinite;
+            background-color: #003366;
+            color: #FFA500;
+            box-shadow: 0 0 14px rgba(0, 0, 0, 0.6);
+            transform: translateY(-9px);
+            border-color: #FFFFFF;
+            border-radius: 12px;
+
+        }
+        .home-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 1rem;
+            padding: 20px 30px;
+            background-color: #003366;
+            color: #FFA500;
+            font-weight: 900;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Montserrat', sans-serif;
+        }
+        .home-button:hover {
+            background-color: #003366;
+            color: #FFA500;
+            border: 2px solid #FFFFFF;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.0);
+            font-weight: 900;
+        }
+        .footer img {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            width: 100px;
+            height: auto;
+            border-radius: 100px;
+        }
+
+        .quote {
+            position: absolute;
+            right: 500px;
+            top: 60px;
+            font-size: 3rem;
+            color: #FFFFFF;
+            font-family: 'Cookie', sans-serif;
+            max-width: 900px;
+        }
+        .quote-author {
+            text-align: right;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+            .new-collection {
+            position: absolute;
+            bottom: 20px;
+            left: 370px;
+            font-size: 3.5rem;
+            color: #FFFFFF;
+            font-weight: bold;
+            font-family: 'sans-serif', sans-serif;
+            margin-bottom: 3cm;
+            animation: fadeInPulse 10s infinite;
+        }
+        @keyframes fadeInPulse {
+    20% {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.2);
+    }
+    80% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    }
+    </style>
+</head>
+<body>
+<div class="header">
+    <img src="/images/logotipes/log_mk.jpg" alt="Лого">
+</div>
+<div class="quote">
+    "Style is a way to say who you are without having to speak."
+    <div class="quote-author">Michael Kors (Karl Anderson Jr.)</div>
+</div>
+<div class="header">
+    <h1 style="margin-top: 10cm; font-family: 'Montserrat', sans-serif;">A s s o r t m e n t</h1>
+</div>
+<button class="home-button" onclick="window.location.href='/title'">HOME</button>
+<div class="button-container">
+    <div class="product">
+        <button onclick="window.location.href='/mens-shoes-mkors'">MEN'S SHOES</button>
+    </div>
+    <div class="product">
+        <button onclick="window.location.href='/womens-shoes-mkors'">WOMEN'S SHOES</button>
+    </div>
+    <div class="product">
+        <button onclick="window.location.href='/mens-clothes-mkors'">MEN'S CLOTHING</button>
+    </div>
+    <div class="product">
+        <button onclick="window.location.href='/womens-clothes-mkors'">WOMEN'S CLOTHING</button>
+    </div>
+</div>
+<div class="footer">
+    <img src="/images/logo/parus.jpg" alt="logo">
+    <div class="new-collection">New collection S P R I N G - S U M M E R 2025</div>
+</div>
+</body>
+</html>
+
+

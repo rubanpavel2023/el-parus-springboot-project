@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy"
+          content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline';">
+    <title>Women's Shoes</title>
+    <link rel="icon" href="/images/logo/parus.jpg" type="image/jpeg">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Montserrat:wght@400;700&display=swap');
+
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: Montserrat, sans-serif;
+        background-color: #D7B899;
+    }
+
+    h1 {
+        text-align: center;
+        margin: 10px 0;
+        color: #FFFFFF;
+    }
+
+    #products {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+        padding: 20px;
+    }
+
+    .product-card {
+        border: 1px solid #ccc;
+        border-radius: 9px;
+        padding: 20px;
+        margin: 10px;
+        width: 250px;
+        text-align: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+        transition: 0.3s;
+        background-color: #D7B899;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .product-card:hover {
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+        transform: scale(1.03);
+    }
+
+    .product-card img {
+        width: 270px;
+        height: auto;
+        margin: -5 auto;
+        cursor: pointer;
+        display: block;
+        transition: transform 0.3s ease;
+        object-fit: contain;
+        background-color: #fff;
+    }
+
+    .product-card img:hover {
+        transform: scale(1.05);
+    }
+
+    .product-card p {
+        line-height: 1.2;
+        margin: 5px 0;
+    }
+
+    .product-card span {
+        display: inline-block;
+        margin-right: 10px;
+    }
+
+    button {
+        display: block;
+        width: 60%;
+        padding: 5px 15px;
+        margin-top: 20px;
+        font-size: 1.2rem;
+        text-align: center;
+        color: #fff;
+        background-color: #E6E6FA;
+        border: 2px solid #FFD700;
+        border: 2px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background-color 0.4s ease, transform 0.3s ease;
+        font-family: 'Montserrat', sans-serif;
+    }
+
+    button:hover {
+        background-color: #C0C0C0;
+        transform: scale(1.05);
+    }
+
+    .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.8);
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        z-index: 1000;
+    }
+
+    .modal.active {
+        display: flex;
+    }
+
+    .modal img {
+        max-width: 90%;
+        max-height: 70%;
+        border: 5px solid white;
+        border-radius: 8px;
+        box-shadow: 0 0 25px rgba(0, 0, 0, 0.9);
+    }
+
+    .modal-navigation {
+        margin-top: 15px;
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .modal-navigation button {
+        background-color: white;
+        color: black;
+        font-size: 1rem;
+        padding: 10px 20px;
+        cursor: pointer;
+        border: 2px solid black;
+        border-radius: 5px;
+        transition: 0.3s ease;
+    }
+
+    .modal-navigation button:hover {
+        background-color: grey;
+        color: white;
+    }
+
+    .home-button {
+        position: absolute;
+        top: 7px;
+        right: 20px;
+        font-size: 1rem;
+        padding: 20px 30px;
+        background-color: #D7B899;
+        color: #FFFFFF;
+        font-weight: 600;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.6);
+        font-family: 'Montserrat', sans-serif;
+        width: auto;
+        text-align: center;
+        white-space: nowrap;
+    }
+
+    .home-button:hover {
+        background-color: #D7B899;
+        color: #FFFFFF;
+        border: 2px solid #FFFFFF;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.0);
+        transform: translateY(-4px);
+        font-family: 'Montserrat', sans-serif;
+    }
+
+    .footer img {
+        position: absolute;
+        bottom: 20px;
+        left: 20px;
+        width: 100px;
+        height: auto;
+        border-radius: 100px;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1>Women's Shoes</h1>
+
+    <button class="home-button" onclick="window.location.href='/title'">HOME</button>
+
+    <div id="products">
+
+        <div th:each="product, iterStat : ${goods}" class="product-card">
+            <h2 th:text="${product.name}">Product Name</h2>
+
+            <img th:src="'/images/gucci/shoes/wom/shoesgucciwom' + ${iterStat.index + 1} + '.jpg'"
+                 alt="Chanel Shoes" th:onclick="'openGallery(this, ' + ${iterStat.index} + ')'">
+
+            <p><strong>Article:</strong> <span th:text="${product.article}"></span></p>
+            <p>Size: <span th:text="${product.size}"></span></p>
+            <p>Price: <span th:text="${product.price}"></span> <span th:text="${product.currency}"></span></p>
+
+            <input type="number" min="1" value="1"
+                   th:id="'quantity-' + ${product.id}"
+                   th:max="${product.quantity}">
+
+            <button th:attr="onclick=|addToCart(${product.id}, '${product.name}', ${product.size}, ${product.price}, ${product.quantity}, '${product.article}')|">
+                Add to Cart
+            </button>
+        </div>
+    </div>
+
+    <div id="gallery-modal" class="modal">
+        <span class="modal-close" onclick="closeGallery()">×</span>
+        <img id="modal-image" src="" alt="Full Image">
+        <div class="modal-navigation">
+            <button onclick="prevImage()">← Previous</button>
+            <button onclick="nextImage()">Next →</button>
+        </div>
+    </div>
+</div>
+<div class="footer">
+    <img src="/images/logo/parus.jpg" alt="logo">
+</div>
+<script>
+
+  let currentImageIndex = 0;
+  let images = [];
+
+  function openGallery(image, productIndex) {
+      images = [
+          `/images/gucci/shoes/wom/shoesgucciwom${productIndex + 1}.jpg`,
+          `/images/gucci/shoes/wom/shoesgucciwom${productIndex + 1}-1.jpg`,
+          `/images/gucci/shoes/wom/shoesgucciwom${productIndex + 1}-2.jpg`
+      ];
+
+      currentImageIndex = 0;
+      const modal = document.getElementById('gallery-modal');
+      const modalImage = document.getElementById('modal-image');
+
+      if (modal && modalImage) {
+          modalImage.src = images[currentImageIndex];
+          modal.classList.add('active');
+          console.log(`Modal class list: ${modal.classList}`);
+      } else {
+          console.error("Modal window or modal image not found.");
+      }
+  }
+
+  function closeGallery() {
+      const modal = document.getElementById('gallery-modal');
+      if (modal) {
+          modal.classList.remove('active');
+          console.log("Gallery closed.");
+      }
+  }
+
+  function prevImage() {
+      if (currentImageIndex > 0) {
+          currentImageIndex--;
+          const modalImage = document.getElementById('modal-image');
+          modalImage.src = images[currentImageIndex];
+      }
+  }
+
+  function nextImage() {
+      if (currentImageIndex < images.length - 1) {
+          currentImageIndex++;
+          const modalImage = document.getElementById('modal-image');
+          modalImage.src = images[currentImageIndex];
+      }
+  }
+
+  function addToCart(productId, productName, productSize, productPrice, availableQuantity, productArticle) {
+        const quantityField = document.querySelector(`#quantity-${productId}`);
+        const quantity = parseInt(quantityField.value, 10) || 1;
+        const item = {
+            name: productName,
+            article: productArticle,
+            size: productSize,
+            quantity: quantity,
+            pricePerUnit: Number(productPrice)
+        };
+        console.log("Sending data to the server:", item);
+
+        fetch('/cart/addToCart', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(item)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.updatedAvailableQuantity !== undefined) {
+                const availableElement = document.querySelector(`#available-${productId}`);
+                if (availableElement) {
+                    availableElement.textContent = data.updatedAvailableQuantity;
+                }
+            }
+            alert(data.message);
+        })
+        .catch(error => {
+            console.error('Error sending request:', error);
+        });
+  }
+
+</script>
+</body>
+</html>
