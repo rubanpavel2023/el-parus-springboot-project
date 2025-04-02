@@ -3,7 +3,7 @@ package com.example.el_parus_springboot_project.Service;
 import com.example.el_parus_springboot_project.Entity.Goods;
 import com.example.el_parus_springboot_project.Repositories.CartItemRepository;
 import com.example.el_parus_springboot_project.Entity.CartItem;
-import com.example.el_parus_springboot_project.Entity.Orders;
+import com.example.el_parus_springboot_project.Entity.Order;
 import com.example.el_parus_springboot_project.Repositories.GoodsRepository;
 import com.example.el_parus_springboot_project.Repositories.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,7 +72,7 @@ public class OrderService {
                     .append("Quantity: ").append(item.getQuantity()).append("); ");
         }
 
-        Orders order = new Orders();
+        Order order = new Order();
         order.setOrderDate(LocalDateTime.now());
         order.setCustomerName(firstName + " " + lastName);
         order.setCustomerPhone(phone);
@@ -97,7 +97,7 @@ public class OrderService {
     @Transactional
     public ResponseEntity<List<?>> getAllOrders() {
         try {
-            List<Orders> orders = orderRepository.findAll();
+            List<Order> orders = orderRepository.findAll();
             return ResponseEntity.ok(orders);
         } catch (DataAccessException ex) {
             System.err.println("Error while working with database: " + ex.getMessage());
@@ -110,7 +110,7 @@ public class OrderService {
     @Transactional
     public ResponseEntity<List<?>> getOrdersByPhone(String phone) {
         try {
-            List<Orders> orders = orderRepository.findByCustomerPhone(phone);
+            List<Order> orders = orderRepository.findByCustomerPhone(phone);
             return ResponseEntity.ok(orders);
         } catch (DataAccessException ex) {
             System.err.println("Error while working with database: " + ex.getMessage());
@@ -122,7 +122,7 @@ public class OrderService {
     @Transactional
     public ResponseEntity<List<?>> getOrdersByStatusReserved() {
         try {
-            List<Orders> orders = orderRepository.findByStatus("reserved");
+            List<Order> orders = orderRepository.findByStatus("reserved");
             return ResponseEntity.ok(orders);
         } catch (DataAccessException ex) {
             System.err.println("Error while working with database: " + ex.getMessage());
@@ -134,7 +134,7 @@ public class OrderService {
     @Transactional
     public ResponseEntity<List<?>> getOrdersByStatusCompleted() {
         try {
-            List<Orders> orders = orderRepository.findByStatus("completed");
+            List<Order> orders = orderRepository.findByStatus("completed");
             return ResponseEntity.ok(orders);
         } catch (DataAccessException ex) {
             System.err.println("Error while working with database: " + ex.getMessage());
@@ -163,7 +163,7 @@ public class OrderService {
     @Transactional
     public ResponseEntity<List<?>> getOrdersByPhoneAndStatusReserved(String phone) {
         try {
-            List<Orders> orders = orderRepository.findByCustomerPhoneWithReservedStatus(phone);
+            List<Order> orders = orderRepository.findByCustomerPhoneWithReservedStatus(phone);
             return ResponseEntity.ok(orders);
         } catch (DataAccessException ex) {
             System.err.println("Error while working with database: " + ex.getMessage());
@@ -187,7 +187,7 @@ public class OrderService {
 
     @Transactional
     public Map<String, String> deleteOrderWithStatusReservedById(Long id) {
-        Orders order = orderRepository.findById(id).get();
+        Order order = orderRepository.findById(id).get();
 
         Map<String, Integer> itemsMap = order.getOrderItemsMap();
         for (Map.Entry<String, Integer> entry : itemsMap.entrySet()) {
