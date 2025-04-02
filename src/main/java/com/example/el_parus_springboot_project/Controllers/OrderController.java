@@ -1,6 +1,6 @@
 package com.example.el_parus_springboot_project.Controllers;
 
-import com.example.el_parus_springboot_project.Entity.Orders;
+import com.example.el_parus_springboot_project.Entity.Order;
 import com.example.el_parus_springboot_project.Repositories.OrderRepository;
 import com.example.el_parus_springboot_project.Service.OrderService;
 import jakarta.servlet.http.HttpSession;
