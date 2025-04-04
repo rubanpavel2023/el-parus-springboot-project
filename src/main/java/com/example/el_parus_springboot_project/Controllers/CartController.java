@@ -1,6 +1,6 @@
 package com.example.el_parus_springboot_project.Controllers;
 
-import com.example.el_parus_springboot_project.Entity.CartItem;
+import com.example.el_parus_springboot_project.Entity.Cart;
 import com.example.el_parus_springboot_project.Service.CartService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,29 +21,29 @@ public class CartController {
 
     @PostMapping("/addToCart")
     @ResponseBody
-    public ResponseEntity<Map<String, Object>> addToCart(@RequestBody CartItem item, HttpSession session) {
+    public ResponseEntity<Map<String, Object>> addToCart(@RequestBody Cart item, HttpSession session) {
         String sessionId = session.getId();
-        Map<String, Object> result = cartService.addToCart(item, sessionId);
+        Map<String, Object> newCartItems = cartService.addToCart(item, sessionId);
 
-        if (result.get("message").toString().contains("Incorrect") ||
-                result.get("message").toString().contains("exceeded")) {
-            return ResponseEntity.badRequest().body(result);
+        if (newCartItems.get("message").toString().contains("Incorrect") ||
+                newCartItems.get("message").toString().contains("exceeded")) {
+            return ResponseEntity.badRequest().body(newCartItems);
         }
 
-        return ResponseEntity.ok(result);
+        return ResponseEntity.ok(newCartItems);
     }
 
     @GetMapping("/getCartItems")
     @ResponseBody
-    public ResponseEntity<List<CartItem>> getCartItems(HttpSession session) {
+    public ResponseEntity<List<Cart>> getCartItems(HttpSession session) {
         String sessionId = session.getId();
-        List<CartItem> cartItems = cartService.getCartItems(sessionId);
+        List<Cart> cart = cartService.getCartBySession(sessionId);
 
-        if (cartItems.isEmpty()) {
+        if (cart.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
 
-        return ResponseEntity.ok(cartItems);
+        return ResponseEntity.ok(cart);
     }
 
     @Transactional
@@ -59,14 +59,14 @@ public class CartController {
         return "cart";
     }
 
-    @GetMapping("/data")
-    public ResponseEntity<Map<String, Object>> getCartData() {
-        return cartService.getCartData();
+    @GetMapping("/dataAllCarts")
+    public ResponseEntity<Map<String, Object>> getAllDataCarts() {
+        return cartService.getAllDataCarts();
     }
 
     @GetMapping("/total-amount")
     public ResponseEntity<Double> getTotalAmount() {
-        return cartService.calculateTotalAmount();
+        return cartService.calculateTotalAmountForAllCarts();
     }
 
     @DeleteMapping("/delete/all")
@@ -74,16 +74,3 @@ public class CartController {
         return ResponseEntity.ok(cartService.deleteAllCartsCustomers());
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

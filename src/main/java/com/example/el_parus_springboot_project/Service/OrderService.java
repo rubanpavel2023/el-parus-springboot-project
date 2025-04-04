@@ -1,8 +1,8 @@
 package com.example.el_parus_springboot_project.Service;
 
 import com.example.el_parus_springboot_project.Entity.Goods;
-import com.example.el_parus_springboot_project.Repositories.CartItemRepository;
-import com.example.el_parus_springboot_project.Entity.CartItem;
+import com.example.el_parus_springboot_project.Repositories.CartRepository;
+import com.example.el_parus_springboot_project.Entity.Cart;
 import com.example.el_parus_springboot_project.Entity.Order;
 import com.example.el_parus_springboot_project.Repositories.GoodsRepository;
 import com.example.el_parus_springboot_project.Repositories.OrderRepository;
@@ -25,7 +25,7 @@ public class OrderService {
     private OrderRepository orderRepository;
 
     @Autowired
-    private CartItemRepository cartItemRepository;
+    private CartRepository cartItemRepository;
 
     @Autowired
     private GoodsRepository goodsRepository;
@@ -55,7 +55,7 @@ public class OrderService {
             throw new IllegalArgumentException("The phone number must contain only numbers");
         }
 
-        List<CartItem> cartItems = cartItemRepository.findBySessionId(sessionId);
+        List<Cart> cartItems = cartItemRepository.findBySessionId(sessionId);
         if (cartItems == null || cartItems.isEmpty()) {
             throw new IllegalStateException("Cart is empty. Order cannot be placed");
         }
@@ -65,7 +65,7 @@ public class OrderService {
                 .sum();
 
         StringBuilder itemsDescription = new StringBuilder();
-        for (CartItem item : cartItems) {
+        for (Cart item : cartItems) {
             itemsDescription.append(item.getName())
                     .append(" (").append(item.getArticle()).append(", ")
                     .append("Size:").append(item.getSize()).append(", ")
@@ -105,7 +105,6 @@ public class OrderService {
                     .body(List.of("Database error: failed to load "));
         }
     }
-
 
     @Transactional
     public ResponseEntity<List<?>> getOrdersByPhone(String phone) {
