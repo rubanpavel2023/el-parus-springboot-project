@@ -28,7 +28,11 @@ public class OrderService {
     private CartRepository cartItemRepository;
 
     @Autowired
-    private GoodsRepository goodsRepository;
+    private GoodsService goodsService;
+
+    @Autowired
+    private CartService cartService;
+
 
 
     public boolean isValidName(String name) {
@@ -80,8 +84,7 @@ public class OrderService {
         order.setTotalPrice(totalPrice);
 
         orderRepository.save(order);
-
-        cartItemRepository.deleteBySessionId(sessionId);
+        cartService.clearCartBySessionId(sessionId);
 
         return Map.of(
                 "id", order.getId(),
@@ -193,11 +196,11 @@ public class OrderService {
             String article = entry.getKey();
             int quantity = entry.getValue();
 
-            Goods goodsFromDBase = goodsRepository.findByArticle(article);
+            Goods goodsFromDBase = goodsService.getGoodsByArticle(article);
             if (goodsFromDBase != null) {
                 int updatedQuantity = goodsFromDBase.getQuantity() + quantity;
                 goodsFromDBase.setQuantity(updatedQuantity);
-                goodsRepository.save(goodsFromDBase);
+                goodsService.saveGoods(goodsFromDBase);
             }
         }
 
