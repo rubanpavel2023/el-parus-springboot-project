@@ -28,8 +28,12 @@ public class GoodsService {
         return goodsRepository.findAll();
     }
 
-}
+    public void saveGoods(Goods goods) {
+        goodsRepository.save(goods);
+    }
 
+
+}
 
 
 

@@ -7,8 +7,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Entity
-@Table(name = "cart_items")
-public class CartItem {
+@Table(name = "cart")
+public class Cart {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,7 +28,7 @@ public class CartItem {
     private LocalDateTime createdTime = LocalDateTime.now();
 
     @ElementCollection
-    @CollectionTable(name = "cart_item_articles_map", joinColumns = @JoinColumn(name = "cart_item_id"))
+    @CollectionTable(name = "cart_articles_map", joinColumns = @JoinColumn(name = "cart_id"))
     @MapKeyColumn(name = "article")
     @Column(name = "quantity")
     private Map<String, Integer> articlesMap;

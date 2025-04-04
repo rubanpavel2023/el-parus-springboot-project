@@ -1,8 +1,8 @@
 package com.example.el_parus_springboot_project.Scheduling;
 
-import com.example.el_parus_springboot_project.Entity.CartItem;
+import com.example.el_parus_springboot_project.Entity.Cart;
 import com.example.el_parus_springboot_project.Entity.Goods;
-import com.example.el_parus_springboot_project.Repositories.CartItemRepository;
+import com.example.el_parus_springboot_project.Repositories.CartRepository;
 import com.example.el_parus_springboot_project.Repositories.GoodsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -16,18 +16,18 @@ import java.util.List;
 public class CartCleanupTask {
 
     @Autowired
-    private CartItemRepository cartItemRepository;
+    private CartRepository cartItemRepository;
 
     @Autowired
     private GoodsRepository goodsRepository;
 
-    @Scheduled(fixedRate = 90000)
+    @Scheduled(fixedRate = 60000)
     @Transactional
     public void cleanUpOldCartItems() {
         LocalDateTime expirationTime = LocalDateTime.now().minusMinutes(15);
-        List<CartItem> expiredItems = cartItemRepository.findExpiredCartItems(expirationTime);
+        List<Cart> expiredItems = cartItemRepository.findExpiredCartItems(expirationTime);
 
-        for (CartItem item : expiredItems) {
+        for (Cart item : expiredItems) {
             try {
                 Goods goods = goodsRepository.findByArticle(item.getArticle());
                 if (goods != null) {
@@ -43,7 +43,6 @@ public class CartCleanupTask {
         }
     }
 }
-
 
 
 

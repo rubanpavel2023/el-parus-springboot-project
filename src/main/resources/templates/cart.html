@@ -7,114 +7,114 @@
     <title>Cart</title>
     <link rel="icon" href="/images/logo/parus.jpg" type="image/jpeg">
     <style>
-        :root {
-          --banner-height: 300px;
-          --banner-padding-left: 25px;
-          --el-parus-font-size: 115px;
-          --shopping-font-size: 100px;
-          --button-bg: #333333;
-          --button-border-width: 2px;
-          --button-border-color: #FFFFFF;
-          --button-text-color: #FFFFFF;
-          --button-hover-bg: #FFFFFF;
-          --button-hover-border-color: #000000;
-          --button-hover-text-color: #FFFFFF;
-        }
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #FFD700;
-            margin: 0;
-            padding: 0;
-        }
-        .container {
-            width: 80%;
-            margin: 20px auto;
-            background: #E6E6FA;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.3);
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-        }
-        table th, table td {
-            padding: 15px;
-            text-align: center;
-            border: 1px solid #ffffff;
-        }
-        table th {
-
-            background-color: #C0c0c0;
-            color: #ffffff;
-        }
-        .order-button {
-            display: block;
-            width: 100%;
-            padding: 15px;
-            font-size: 1.2rem;
-            text-align: center;
-            color: #fff;
-            background-color: #E6E6FA;
-            border: 3px solid #fff;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: background-color 0.4s ease;
-        }
-        .order-button:hover {
-            background-color: #C0c0c0;
-        }
-        .header-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        .home-button {
-            padding: 20px 30px;
-            font-size: 1.1rem;
-            color: #fff;
-            background-color: #FFFFFF;
-            border: 2px solid #FFFFFF;
-            border-radius: 12px;
-            cursor: pointer;
-            font-family: 'Montserrat', sans-serif;
-        }
-
-        .home-button:hover {
-            background-color: #FFFFFF;
-            color:#FFD700;
-            border-color: #FFFFFF;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .form-group label {
-            font-weight: bold;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            background-color: #000000;
-        }
-
-        .loading-message {
-            text-align: center;
-            font-size: 1.2rem;
-            color: #888;
-        }
-
-       .footer img {
-        position: absolute;
-        bottom: 20px;
-        left: 20px;
-        width: 100px;
-        height: auto;
-        border-radius: 100px;
+        :root { 
+          --banner-height: 300px; 
+          --banner-padding-left: 25px; 
+          --el-parus-font-size: 115px; 
+          --shopping-font-size: 100px; 
+          --button-bg: #333333; 
+          --button-border-width: 2px; 
+          --button-border-color: #FFFFFF; 
+          --button-text-color: #FFFFFF; 
+          --button-hover-bg: #FFFFFF; 
+          --button-hover-border-color: #000000; 
+          --button-hover-text-color: #FFFFFF; 
+        } 
+        body { 
+            font-family: Arial, sans-serif; 
+            background-color: #FFD700; 
+            margin: 0; 
+            padding: 0; 
+        } 
+        .container { 
+            width: 80%; 
+            margin: 20px auto; 
+            background: #E6E6FA; 
+            padding: 20px; 
+            box-shadow: 0 0 10px rgba(0,0,0,0.3); 
+        } 
+        table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            margin: 20px 0; 
+        } 
+        table th, table td { 
+            padding: 15px; 
+            text-align: center; 
+            border: 1px solid #ffffff; 
+        } 
+        table th { 
+ 
+            background-color: #C0c0c0; 
+            color: #ffffff; 
+        } 
+        .order-button { 
+            display: block; 
+            width: 100%; 
+            padding: 15px; 
+            font-size: 1.2rem; 
+            text-align: center; 
+            color: #fff; 
+            background-color: #E6E6FA; 
+            border: 3px solid #fff; 
+            border-radius: 12px; 
+            cursor: pointer; 
+            transition: background-color 0.4s ease; 
+        } 
+        .order-button:hover { 
+            background-color: #C0c0c0; 
+        } 
+        .header-container { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            margin-bottom: 20px; 
+        } 
+        .home-button { 
+            padding: 20px 30px; 
+            font-size: 1.1rem; 
+            color: #fff; 
+            background-color: #FFFFFF; 
+            border: 2px solid #FFFFFF; 
+            border-radius: 12px; 
+            cursor: pointer; 
+            font-family: 'Montserrat', sans-serif; 
+        } 
+ 
+        .home-button:hover { 
+            background-color: #FFFFFF; 
+            color:#FFD700; 
+            border-color: #FFFFFF; 
+        } 
+ 
+        .form-group { 
+            margin-bottom: 15px; 
+        } 
+ 
+        .form-group label { 
+            font-weight: bold; 
+        } 
+ 
+        .form-group input { 
+            width: 100%; 
+            padding: 10px; 
+            border: 1px solid #ccc; 
+            background-color: #000000; 
+        } 
+ 
+        .loading-message { 
+            text-align: center; 
+            font-size: 1.2rem; 
+            color: #888; 
+        } 
+ 
+       .footer img { 
+        position: absolute; 
+        bottom: 20px; 
+        left: 20px; 
+        width: 100px; 
+        height: auto; 
+        border-radius: 100px; 
     }
     </style>
 </head>
@@ -168,157 +168,155 @@
     </div>
 </div>
 <div class="footer">
-    <img src="/images/logo/parus.jpg" alt="Доп изображение">
+    <img src="/images/logo/parus.jpg" alt="logo">
 </div>
 <script>
 
-    function loadCartItems() {
-        console.log("Loading cart data...");
-        fetch('/cart/getCartItems')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Failed to load cart data. Please try again later');
-                }
-                return response.json();
-            })
-            .then(data => {
-                console.log("Cart details:", data);
-                const cartTableBody = document.getElementById('cartTableBody');
-                const totalAmountElement = document.getElementById('totalAmount');
-                cartTableBody.innerHTML = '';
-                let totalAmount = 0;
-                if (data.length === 0) {
-                    cartTableBody.innerHTML = '<tr><td colspan="6">Cart is empty</td></tr>';
-                    totalAmountElement.textContent = '0 USD';
-                    return;
-                }
-                data.forEach(item => {
-                    const row = `
-                        <tr>
-                            <td>${item.name}</td>
-                            <td>${item.size}</td>
-                            <td>${item.article}</td>
-                            <td>${item.quantity}</td>
-                            <td>${item.pricePerUnit.toFixed(2)} USD</td>
-                            <td>${(item.quantity * item.pricePerUnit).toFixed(2)} USD</td>
-                        </tr>
-                    `;
-                    totalAmount += item.quantity * item.pricePerUnit;
-                    cartTableBody.innerHTML += row;
-                });
-                totalAmountElement.textContent = `${totalAmount.toFixed(2)} USD`;
-                console.log("Cart loaded successfully");
-            })
-            .catch(error => {
-                console.error("Error loading cart:", error.message);
-                const cartTableBody = document.getElementById('cartTableBody');
-                cartTableBody.innerHTML = '<tr><td colspan="6">Your shopping cart is empty ((. Hurry up and go shopping!</td></tr>';
-            });
-    }
-
-    function placeOrder() {
-        const firstName = document.getElementById('firstName').value.trim();
-        const lastName = document.getElementById('lastName').value.trim();
-        const phone = document.getElementById('phone').value.trim();
-        if (!firstName || !lastName || !phone) {
-            alert('Please fill in all fields');
-            return;
-        }
-        const orderData = {
-            firstName: firstName,
-            lastName: lastName,
-            phone: phone
-        };
-        fetch('/order/placeOrder', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(orderData)
-        })
-        .then(response => {
-            if (!response.ok) {
-                return response.json().then(data => {
-                    throw new Error(data.message || 'Error while placing your order');
-                });
-            }
-            return response.json();
-        })
-        .then(data => {
-            const modalHtml = `
-                <div id="orderModal" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);display:flex;justify-content:center;align-items:center;">
-                    <div style="background:white;padding:20px;border-radius:8px;max-width:1200px;width:80%;">
-                        <h2 style="text-align:center;">Order successfully placed!</h2>
-                        <p>Your order:</p>
-                        <table style="width:100%;border-collapse:collapse;">
-                            <thead>
-                                <tr>
-                                    <th>Order number</th>
-                                    <th>First and Last Name</th>
-                                    <th>Telephone</th>
-                                    <th>Goods</th>
-                                    <th>Date</th>
-                                    <th>Sum</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>${data.order.id}</td>
-                                    <td>${data.order.customerName}</td>
-                                    <td>${data.order.customerPhone}</td>
-                                    <td>${data.order.itemsDescription}</td>
-                                    <td>${new Date(data.order.orderDate).toLocaleString()}</td>
-                                    <td>${data.order.totalPrice.toFixed(2)} USD</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <button onclick="closeModalAndRedirect()" style="margin-top:20px;padding:10px 20px;background:#28a745;color:white;border:none;border-radius:4px;">OK</button>
-                    </div>
-                </div>
-            `;
-            document.body.insertAdjacentHTML('beforeend', modalHtml);
-        })
-        .catch(error => {
-            console.error('Error:', error.message);
-            alert(error.message);
-        });
-    }
-
-    function closeModalAndRedirect() {
-        const modal = document.getElementById('orderModal');
-        if (modal) {
-            modal.remove();
-        }
-        window.location.href = '/';
-    }
-
-    function clearCart() {
-    if (!confirm("Are you sure you want to empty your cart?")) {
-        return;
-    }
-
-    fetch('/cart/clearCart', {
-        method: 'POST'
-    })
-    .then(response => {
-        if (response.ok) {
-            return response.text();
-        } else {
-            throw new Error("Error emptying cart. Try again.");
-        }
-    })
-    .then(serverMessage => {
-        alert(serverMessage);
-        loadCartItems();
-    })
-    .catch(error => {
-        console.error("Error clearing recycle bin:", error.message);
-        alert("Failed to empty cart. Try again later");
-    });
-}
-
-
+    function loadCartItems() { 
+        console.log("Loading cart data..."); 
+        fetch('/cart/getCartItems') 
+            .then(response => { 
+                if (!response.ok) { 
+                    throw new Error('Failed to load cart data. Please try again later'); 
+                } 
+                return response.json(); 
+            }) 
+            .then(data => { 
+                console.log("Cart details:", data); 
+                const cartTableBody = document.getElementById('cartTableBody'); 
+                const totalAmountElement = document.getElementById('totalAmount'); 
+                cartTableBody.innerHTML = ''; 
+                let totalAmount = 0; 
+                if (data.length === 0) { 
+                    cartTableBody.innerHTML = '<tr><td colspan="6">Cart is empty</td></tr>'; 
+                    totalAmountElement.textContent = '0 USD'; 
+                    return; 
+                } 
+                data.forEach(item => { 
+                    const row = ` 
+                        <tr> 
+                            <td>${item.name}</td> 
+                            <td>${item.size}</td> 
+                            <td>${item.article}</td> 
+                            <td>${item.quantity}</td> 
+                            <td>${item.pricePerUnit.toFixed(2)} USD</td> 
+                            <td>${(item.quantity * item.pricePerUnit).toFixed(2)} USD</td> 
+                        </tr> 
+                    `; 
+                    totalAmount += item.quantity * item.pricePerUnit; 
+                    cartTableBody.innerHTML += row; 
+                }); 
+                totalAmountElement.textContent = `${totalAmount.toFixed(2)} USD`; 
+                console.log("Cart loaded successfully"); 
+            }) 
+            .catch(error => { 
+                console.error("Error loading cart:", error.message); 
+                const cartTableBody = document.getElementById('cartTableBody'); 
+                cartTableBody.innerHTML = '<tr><td colspan="6">Your shopping cart is empty ((. Hurry up and go shopping!</td></tr>'; 
+            }); 
+    } 
+ 
+    function placeOrder() { 
+        const firstName = document.getElementById('firstName').value.trim(); 
+        const lastName = document.getElementById('lastName').value.trim(); 
+        const phone = document.getElementById('phone').value.trim(); 
+        if (!firstName || !lastName || !phone) { 
+            alert('Please fill in all fields'); 
+            return; 
+        } 
+        const orderData = { 
+            firstName: firstName, 
+            lastName: lastName, 
+            phone: phone 
+        }; 
+        fetch('/order/placeOrder', { 
+            method: 'POST', 
+            headers: { 'Content-Type': 'application/json' }, 
+            body: JSON.stringify(orderData) 
+        }) 
+        .then(response => { 
+            if (!response.ok) { 
+                return response.json().then(data => { 
+                    throw new Error(data.message || 'Error while placing your order'); 
+                }); 
+            } 
+            return response.json(); 
+        }) 
+        .then(data => { 
+            const modalHtml = ` 
+                <div id="orderModal" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);display:flex;justify-content:center;align-items:center;"> 
+                    <div style="background:white;padding:20px;border-radius:8px;max-width:1200px;width:80%;"> 
+                        <h2 style="text-align:center;">Order successfully placed!</h2> 
+                        <p>Your order:</p> 
+                        <table style="width:100%;border-collapse:collapse;"> 
+                            <thead> 
+                                <tr> 
+                                    <th>Order number</th> 
+                                    <th>First and Last Name</th> 
+                                    <th>Telephone</th> 
+                                    <th>Goods</th> 
+                                    <th>Date</th> 
+                                    <th>Sum</th> 
+                                </tr> 
+                            </thead> 
+                            <tbody> 
+                                <tr> 
+                                    <td>${data.order.id}</td> 
+                                    <td>${data.order.customerName}</td> 
+                                    <td>${data.order.customerPhone}</td> 
+                                    <td>${data.order.itemsDescription}</td> 
+                                    <td>${new Date(data.order.orderDate).toLocaleString()}</td> 
+                                    <td>${data.order.totalPrice.toFixed(2)} USD</td> 
+                                </tr> 
+                            </tbody> 
+                        </table> 
+                        <button onclick="closeModalAndRedirect()" style="margin-top:20px;padding:10px 20px;background:#28a745;color:white;border:none;border-radius:4px;">OK</button> 
+                    </div> 
+                </div> 
+            `; 
+            document.body.insertAdjacentHTML('beforeend', modalHtml); 
+        }) 
+        .catch(error => { 
+            console.error('Error:', error.message); 
+            alert(error.message); 
+        }); 
+    } 
+ 
+    function closeModalAndRedirect() { 
+        const modal = document.getElementById('orderModal'); 
+        if (modal) { 
+            modal.remove(); 
+        } 
+        window.location.href = '/'; 
+    } 
+ 
+    function clearCart() { 
+    if (!confirm("Are you sure you want to empty your cart?")) { 
+        return; 
+    } 
+ 
+    fetch('/cart/clearCart', { 
+        method: 'POST' 
+    }) 
+    .then(response => { 
+        if (response.ok) { 
+            return response.text(); 
+        } else { 
+            throw new Error("Error emptying cart. Try again."); 
+        } 
+    }) 
+    .then(serverMessage => { 
+        alert(serverMessage); 
+        loadCartItems(); 
+    }) 
+    .catch(error => { 
+        console.error("Error clearing recycle bin:", error.message); 
+        alert("Failed to empty cart. Try again later"); 
+    }); 
+} 
+ 
+ 
     document.addEventListener('DOMContentLoaded', loadCartItems);
 </script>
 </body>
-</html>
-
-
+</html> 
