@@ -87,8 +87,12 @@ public class CartService {
                 goodsService.saveGoods(goods);
             }
         }
-        cartRepository.deleteBySessionId(sessionId);
+        clearCartBySessionId(sessionId);
         return ResponseEntity.ok("The cart has been emptied successfully");
+    }
+
+    public void clearCartBySessionId(String sessionId) {
+        cartRepository.deleteBySessionId(sessionId);
     }
 
     //for admin
