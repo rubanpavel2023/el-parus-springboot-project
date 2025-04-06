@@ -29,17 +29,17 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
 
     //for admin
     @Query(value = "SELECT name, size, article, quantity, price_per_unit, created_time, " +
-            "(quantity * price_per_unit) AS totalPricePosition " + "FROM cart " + "ORDER BY created_time",
+            "(quantity * price_per_unit) AS totalPricePosition " + "FROM carts " + "ORDER BY created_time",
             nativeQuery = true)
     List<Map<String, Object>> getCarts();
 
     @Query(value = "SELECT session_id, SUM(quantity * price_per_unit) AS sessionTotal " +
-            "FROM cart " + "GROUP BY session_id ORDER BY session_id",
+            "FROM carts " + "GROUP BY session_id ORDER BY session_id",
             nativeQuery = true)
     List<Map<String, Object>> getSessionTotals();
 
 
-    @Query(value = "SELECT SUM(quantity * price_per_unit) AS totalAmount FROM cart",
+    @Query(value = "SELECT SUM(quantity * price_per_unit) AS totalAmount FROM carts",
             nativeQuery = true)
     Double getTotalAmount();
 

@@ -24,7 +24,7 @@ public class CartCleanupTask {
     @Scheduled(fixedRate = 60000)
     @Transactional
     public void cleanUpOldCartItems() {
-        LocalDateTime expirationTime = LocalDateTime.now().minusMinutes(15);
+        LocalDateTime expirationTime = LocalDateTime.now().minusMinutes(1);
         List<Cart> expiredItems = cartItemRepository.findExpiredCartItems(expirationTime);
 
         for (Cart item : expiredItems) {
