@@ -185,7 +185,6 @@
         background-color: #FFD700;
         }
 
-
         .dropdown-content {
         position: absolute;
         display: none;
@@ -202,6 +201,7 @@
        .fixed-column {
        width: 350px;
        text-align: left;
+
 }
 
     </style>
@@ -253,10 +253,11 @@ background-color: #f0f0f0; border-radius: 25px; box-shadow: 0 8px 20px rgba(0, 0
     <div class="button-group">
 
         <div class="dropdown">
-            <button class="menu-button" onclick="toggleMenu('viewGoodsMenu')">View goods</button>
+            <button class="menu-button" onclick="toggleMenu('viewGoodsMenu')">STOCKROOM</button>
             <div class="dropdown-content" id="viewGoodsMenu">
                 <button onclick="viewAllGoods()">All goods in stock</button>
                 <button onclick="viewGoodsByArticle()">By article</button>
+                <button onclick="openAddGoodsPage()">Add New Goods</button>
             </div>
         </div>
 
@@ -391,6 +392,11 @@ function closeGoodsModal() {
         modal.remove();
     }
 }
+
+function openAddGoodsPage() {
+    window.location.href = '/goods/addNewGoodsPage';
+}
+
 
 async function viewAllOrders() {
     try {
