@@ -1,4 +1,4 @@
-package com.example.el_parus_springboot_project.ProviderGoods;
+/*package com.example.el_parus_springboot_project.ProviderGoods;
 
 import com.example.el_parus_springboot_project.Entity.Goods;
 import com.example.el_parus_springboot_project.Repositories.GoodsRepository;
@@ -80,6 +80,6 @@ public class ProviderGoods {
         }
     }
 
-}
+}*/
 
 
