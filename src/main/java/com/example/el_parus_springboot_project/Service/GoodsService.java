@@ -7,9 +7,13 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class GoodsService {
@@ -77,6 +81,27 @@ public class GoodsService {
     private void validatePrice(Double price) {
         if (price == null || price <= 0) {
             throw new IllegalArgumentException("Invalid price: Must be a positive number.");
+        }
+    }
+
+    //-----------------------------------------------
+
+    @DeleteMapping("/id/{id}")
+    public ResponseEntity<Map<String, String>> deleteGoodsById(@PathVariable Long id) {
+        Map<String, String> response = new HashMap<>();
+        try {
+            if (!goodsRepository.existsById(id)) {
+                response.put("message", "Goods with ID " + id + " not found");
+                return ResponseEntity.ok(response);
+            }
+            ;
+
+            goodsRepository.deleteById(id);
+            response.put("message", "Goods with ID No " + id + " deleted successfully!");
+            return ResponseEntity.ok(response);
+        } catch (DataAccessException ex) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("error", "Database error: failed to delete goods."));
         }
     }
 
