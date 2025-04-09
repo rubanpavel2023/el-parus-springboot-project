@@ -258,13 +258,15 @@ background-color: #f0f0f0; border-radius: 25px; box-shadow: 0 8px 20px rgba(0, 0
                 <button onclick="viewAllGoods()">All goods in stock</button>
                 <button onclick="viewGoodsByArticle()">Search by article</button>
                 <button onclick="openAddGoodsPage()">Add new goods</button>
+                <button onclick="deleteGoodsById()">Delete goods by ID</button>
+
             </div>
         </div>
 
         <div class="dropdown">
             <button class="menu-button" onclick="toggleMenu('viewOrdersMenu')">View orders</button>
             <div class="dropdown-content" id="viewOrdersMenu">
-                <button onclick="viewAllOrders()">All orders</button>
+                <button onclick="viewAllOrders()">View all orders</button>
                 <button onclick="viewOrdersByPhone()">Search by buyer's phone number</button>
                 <button onclick="viewPlacedOrders()">Search by status 'reserved'</button>
                 <button onclick="viewDeliveredOrders()">Search by status 'completed'</button>
@@ -396,6 +398,46 @@ function closeGoodsModal() {
 function openAddGoodsPage() {
     window.location.href = '/goods/addNewGoodsPage';
 }
+
+
+
+
+
+
+
+async function deleteGoodsById() {
+    const id = prompt("Enter the goods ID number: ");
+    if (!id) {
+        alert("You have not entered an ID number");
+        return;
+    }
+    if (confirm("Are you sure you want to delete goods with id № " + id + "?")) {
+        try {
+            const response = await fetch(`/goods/id/${id}`, {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+            });
+            if (!response.ok) {
+                throw new Error(`Error deleting goods: ${response.statusText}`);
+            }
+            const result = await response.json();
+            alert(result.message);
+        } catch (error) {
+            alert("Error: " + error.message);
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
 
 
 async function viewAllOrders() {
