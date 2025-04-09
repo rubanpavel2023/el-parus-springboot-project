@@ -28,7 +28,7 @@ public class GoodsService {
 
 
     public List<Goods> getAllGoods() {
-        return goodsRepository.findAll();
+        return goodsRepository.findAllSortedByCategory();
     }
 
     //add new goods
