@@ -1,4 +1,4 @@
-package com.example.el_parus_springboot_project.Scheduling;
+package com.example.el_parus_springboot_project.Service.CartService;
 
 import com.example.el_parus_springboot_project.Entity.Cart;
 import com.example.el_parus_springboot_project.Entity.Goods;
@@ -24,7 +24,7 @@ public class CartCleanupTask {
     @Scheduled(fixedRate = 60000)
     @Transactional
     public void cleanUpOldCartItems() {
-        LocalDateTime expirationTime = LocalDateTime.now().minusMinutes(1);
+        LocalDateTime expirationTime = LocalDateTime.now().minusMinutes(15);
         List<Cart> expiredItems = cartItemRepository.findExpiredCartItems(expirationTime);
 
         for (Cart item : expiredItems) {
