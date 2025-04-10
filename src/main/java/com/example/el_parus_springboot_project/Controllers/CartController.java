@@ -1,7 +1,7 @@
 package com.example.el_parus_springboot_project.Controllers;
 
 import com.example.el_parus_springboot_project.Entity.Cart;
-import com.example.el_parus_springboot_project.Service.CartService;
+import com.example.el_parus_springboot_project.Service.CartService.CartService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

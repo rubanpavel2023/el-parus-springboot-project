@@ -67,8 +67,8 @@ public class GoodsService {
     }
 
     private void validateSize(Integer size) {
-        if (size == null || size < 1 || size > 55) {
-            throw new IllegalArgumentException("Invalid size: Must be an integer between 1 and 55.");
+        if (size == null || size < 30 || size > 47) {
+            throw new IllegalArgumentException("Invalid size: Must be an integer between 30 and 47.");
         }
     }
 
@@ -93,8 +93,7 @@ public class GoodsService {
             if (!goodsRepository.existsById(id)) {
                 response.put("message", "Goods with ID " + id + " not found");
                 return ResponseEntity.ok(response);
-            }
-            ;
+            };
 
             goodsRepository.deleteById(id);
             response.put("message", "Goods with ID No " + id + " deleted successfully!");
