@@ -106,13 +106,5 @@ public class Cart {
         this.articlesMap = articlesMap;
     }
 
-    @PostPersist
-    @PostLoad
-    public void autoFillArticlesMap() {
-        if (articlesMap == null) {
-            articlesMap = new HashMap<>();
-        }
-        articlesMap.put(this.article, this.quantity);
-    }
 
 }
