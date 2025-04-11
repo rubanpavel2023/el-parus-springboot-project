@@ -53,10 +53,17 @@ public class CartService {
         int updatedAvailableQuantity = currentCartQuantity + item.getQuantity();
 
         if (existingItem != null) {
+
+            existingItem.getArticlesMap().put(
+                    existingItem.getArticle(),
+                    existingItem.getArticlesMap().getOrDefault(existingItem.getArticle(), 0) + item.getQuantity()
+            );
+
             existingItem.setQuantity(updatedAvailableQuantity);
             existingItem.setCreatedTime(LocalDateTime.now());
             cartRepository.save(existingItem);
         } else {
+            item.getArticlesMap().put(item.getArticle(), item.getQuantity());
             item.setQuantity(updatedAvailableQuantity);
             item.setCreatedTime(LocalDateTime.now());
             cartRepository.save(item);
