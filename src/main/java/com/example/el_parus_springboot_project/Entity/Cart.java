@@ -31,7 +31,7 @@ public class Cart {
     @CollectionTable(name = "cart_articles_map", joinColumns = @JoinColumn(name = "cart_id"))
     @MapKeyColumn(name = "article")
     @Column(name = "quantity")
-    private Map<String, Integer> articlesMap;
+    private Map<String, Integer> articlesMap = new HashMap<>();;
 
 
     public Long getId() {
