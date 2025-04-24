@@ -1,6 +1,7 @@
 package com.example.el_parus_springboot_project.Controllers;
 
-import com.example.el_parus_springboot_project.Entity.Cart;
+import com.example.el_parus_springboot_project.Entity.Cart.CartArticleMap;
+import com.example.el_parus_springboot_project.Service.CartService.CartRequest;
 import com.example.el_parus_springboot_project.Service.CartService.CartService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,35 +22,24 @@ public class CartController {
 
     @PostMapping("/addToCart")
     @ResponseBody
-    public ResponseEntity<Map<String, Object>> addToCart(@RequestBody Cart item, HttpSession session) {
+    public ResponseEntity<Map<String, Object>> addToCart(@RequestBody CartRequest request, HttpSession session) {
         String sessionId = session.getId();
-        Map<String, Object> newCartItems = cartService.addToCart(item, sessionId);
-
-        if (newCartItems.get("message").toString().contains("Incorrect") ||
-                newCartItems.get("message").toString().contains("exceeded")) {
-            return ResponseEntity.badRequest().body(newCartItems);
-        }
-
-        return ResponseEntity.ok(newCartItems);
+        return cartService.addToCart(request.getItems(), sessionId);
     }
+
 
     @GetMapping("/getCartItems")
     @ResponseBody
-    public ResponseEntity<List<Cart>> getCartItems(HttpSession session) {
+    public ResponseEntity<List<CartArticleMap>> getCartItems(HttpSession session) {
         String sessionId = session.getId();
-        List<Cart> cart = cartService.getCartBySession(sessionId);
+        return cartService.getCartBySession(sessionId);
 
-        if (cart.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        }
-
-        return ResponseEntity.ok(cart);
     }
 
     @Transactional
     @PostMapping("/clearCart")
     @ResponseBody
-    public ResponseEntity<String> clearCart(HttpSession session) {
+    public ResponseEntity<Map<String, Object>> clearCart(HttpSession session) {
         String sessionId = session.getId();
         return cartService.clearCart(sessionId);
     }

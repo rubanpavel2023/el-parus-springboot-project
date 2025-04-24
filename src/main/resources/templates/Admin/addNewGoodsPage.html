@@ -1,36 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add New Goods</title>
+    <title>Manage Goods</title>
     <link rel="icon" href="/images/logo/parus.jpg" type="image/jpeg">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: Montserrat;
+            font-family: Montserrat, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+
+        }
+
+        .main-container {
+            display: flex;
+            gap: 70px;
+            margin-top: 30px;
         }
 
         .form-container {
-            width: 500px;
+            width: 470px;
             margin: 50px auto;
             padding: 20px;
             background-color: #eafefd;
             border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-            position: relative;
+            outline: 3px solid rgba(255, 255, 255, 1);
+            box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.9);
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
         }
 
         input[type="text"],
         input[type="number"],
         select {
             width: 100%;
-            max-width: 550px;
             padding: 10px;
             margin: 10px 0;
             border: 1px solid #ccc;
             border-radius: 5px;
-            font-size: 18px;
+            font-size: 16px;
             box-sizing: border-box;
         }
 
@@ -41,96 +65,204 @@
             outline: none;
         }
 
-        button {
-            padding: 10px 30px;
+        .add-goods-button {
+            background-color: #f0f0f0;
+            color: white;
+            margin-top: 185px;
+            padding: 10px 60px;
             border: none;
             border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
         }
 
         .add-button {
-            background-color: #FFD700;
+            background-color: #f0f0f0;
             color: white;
-            right: -100px;
-            position: relative;
-            padding: 12px 25px;
+            margin-top: 57px;
+            padding: 10px 60px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
         }
 
-        .exit-button {
-            background-color: black;
+        .size-quantity-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .size-quantity-item {
+            width: 80px;
+            text-align: center;
+        }
+
+        .logout-button {
+            position: absolute;
+            top: 50px;
+            right: 20px;
+            padding: 18px 30px;
+            background-color: #f0f0f0;
             color: white;
-            right: 100px;
-            position: absolute;
-            padding: 12px 25px;
-
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s;
         }
 
-        form {
-            position: relative;
-            overflow: hidden;
-        }
-
-        .footer img {
-            position: absolute;
-            bottom: 20px;
-            left: -650px;
-            width: 100px;
-            height: auto;
-            border-radius: 100px;
-
+        .logout-button:hover {
+            background-color: #808080;
         }
     </style>
 </head>
+
 <body>
-<div class="form-container">
-    <h1>Add New Goods</h1>
-    <form id="addGoodsForm">
-        <label>Name:</label>
-        <select id="name" name="name" required>
-            <option value="Gucci">Gucci</option>
-            <option value="Chanel">Chanel</option>
-            <option value="M.Kors">M.Kors</option>
-            <option value="Burberry">Burberry</option>
-        </select><br/><br/>
+<button class="logout-button" onclick="redirectToDashboard()">EXIT</button>
 
-        <label>Category:</label>
-        <select id="category" name="category" required>
-            <option value="GUCCI Men's Shoes">GUCCI Men's Shoes</option>
-            <option value="GUCCI Women's Shoes">GUCCI Women's Shoes</option>
-            <option value="CHANEL Men's Shoes">CHANEL Men's Shoes</option>
-            <option value="CHANEL Women's Shoes">CHANEL Women's Shoes</option>
-            <option value="M.Kors Men's Shoes">M.Kors Men's Shoes</option>
-            <option value="M.Kors Women's Shoes">M.Kors Women's Shoes</option>
-            <option value="BURBERRY Men's Shoes">BURBERRY Men's Shoes</option>
-            <option value="BURBERRY Women's Shoes">BURBERRY Women's Shoes</option>
-        </select><br/><br/>
+<div class="main-container">
+    <div class="form-container">
+        <h1>Add New Goods</h1>
+        <form id="addGoodsForm">
+            <label>Name:</label>
+            <select id="name" name="name" required>
+                <option value="Gucci">Gucci</option>
+                <option value="Chanel">Chanel</option>
+                <option value="M.Kors">M.Kors</option>
+                <option value="Burberry">Burberry</option>
+            </select>
 
-        <label>Article:</label>
-        <input type="text" id="article" name="article" maxlength="12" pattern="[A-Z0-9]+" required /><br/><br/>
+            <label>Category:</label>
+            <select id="category" name="category" required>
+                <option value="GUCCI Men's Shoes">GUCCI Men's Shoes</option>
+                <option value="GUCCI Women's Shoes">GUCCI Women's Shoes</option>
+                <option value="CHANEL Men's Shoes">CHANEL Men's Shoes</option>
+                <option value="CHANEL Women's Shoes">CHANEL Women's Shoes</option>
+                <option value="M.Kors Men's Shoes">M.Kors Men's Shoes</option>
+                <option value="M.Kors Women's Shoes">M.Kors Women's Shoes</option>
+                <option value="BURBERRY Men's Shoes">BURBERRY Men's Shoes</option>
+                <option value="BURBERRY Women's Shoes">BURBERRY Women's Shoes</option>
+            </select>
 
-        <label>Size:</label>
-        <input type="number" id="size" name="size" min="30" max="47" required /><br/><br/>
+            <label>Article:</label>
+            <input type="text" id="article" name="article" maxlength="12" pattern="[A-Z0-9]+" required />
 
-        <label>Quantity:</label>
-        <input type="number" id="quantity" name="quantity" min="1" required /><br/><br/>
+            <label>Price:</label>
+            <input type="number" id="price" name="price" step="0.01" min="0.01" required />
 
-        <label>Price:</label>
-        <input type="number" id="price" name="price" step="0.01" min="0.01" required /><br/><br/>
+            <label>Currency:</label>
+            <select id="currency" name="currency" required>
+                <option value="USD">USD</option>
+                <option value="EURO">EURO</option>
+            </select>
 
-        <label>Currency:</label>
-        <select id="currency" name="currency" required>
-            <option value="USD">USD</option>
-            <option value="EURO">EURO</option>
-        </select><br/><br/>
+            <button type="button" class="add-goods-button" onclick="submitNewGoods()">ADD GOODS</button>
+        </form>
+    </div>
 
-        <button type="button" class="add-button" onclick="submitNewGoods()">ADD GOODS</button>
-        <button type="button" class="exit-button" onclick="redirectToDashboard()">EXIT</button>
 
-    </form>
-    <div class="footer">
-        <img src="/images/logo/parus.jpg" alt="logo">
+    <div class="form-container">
+        <h1>Add Size and Quantity by Article</h1>
+        <form id="addSizesForm">
+            <label>Category:</label>
+            <select id="sizeCategory" name="category" required>
+                <option value="GUCCI Men's Shoes">GUCCI Men's Shoes</option>
+                <option value="GUCCI Women's Shoes">GUCCI Women's Shoes</option>
+                <option value="CHANEL Men's Shoes">CHANEL Men's Shoes</option>
+                <option value="CHANEL Women's Shoes">CHANEL Women's Shoes</option>
+                <option value="M.Kors Men's Shoes">M.Kors Men's Shoes</option>
+                <option value="M.Kors Women's Shoes">M.Kors Women's Shoes</option>
+                <option value="BURBERRY Men's Shoes">BURBERRY Men's Shoes</option>
+                <option value="BURBERRY Women's Shoes">BURBERRY Women's Shoes</option>
+            </select>
+
+            <label>Article:</label>
+            <input type="text" id="sizeArticle" name="article" maxlength="12" pattern="[A-Z0-9]+" required />
+
+            <label>Size and Quantity:</label>
+            <div class="size-quantity-grid">
+
+                <div class="size-quantity-item">
+                    <label>30</label>
+                    <input type="number" name="size_30" min="0" placeholder="Qty">
+                </div>
+                <div class="size-quantity-item">
+                    <label>31</label>
+                    <input type="number" name="size_31" min="0" placeholder="Qty">
+                </div>
+                <div class="size-quantity-item">
+                    <label>32</label>
+                    <input type="number" name="size_32" min="0" placeholder="Qty">
+                </div>
+                <div class="size-quantity-item">
+                    <label>33</label>
+                    <input type="number" name="size_33" min="0" placeholder="Qty">
+                </div>
+                <div class="size-quantity-item">
+                    <label>34</label>
+                    <input type="number" name="size_34" min="0" placeholder="Qty">
+                </div>
+                <div class="size-quantity-item">
+                    <label>35</label>
+                    <input type="number" name="size_35" min="0" placeholder="Qty">
+                </div>
+                <div class="size-quantity-item">
+                    <label>36</label>
+                    <input type="number" name="size_36" min="0" placeholder="Qty">
+                </div>
+                <div class="size-quantity-item">
+                    <label>37</label>
+                    <input type="number" name="size_37" min="0" placeholder="Qty">
+                </div>
+                <div class="size-quantity-item">
+                    <label>38</label>
+                    <input type="number" name="size_38" min="0" placeholder="Qty">
+                </div>
+                <div class="size-quantity-item">
+                    <label>39</label>
+                    <input type="number" name="size_39" min="0" placeholder="Qty">
+                </div>
+                <div class="size-quantity-item">
+                    <label>40</label>
+                    <input type="number" name="size_40" min="0" placeholder="Qty">
+                </div>
+                <div class="size-quantity-item">
+                    <label>41</label>
+                    <input type="number" name="size_41" min="0" placeholder="Qty">
+                </div>
+                <div class="size-quantity-item">
+                    <label>42</label>
+                    <input type="number" name="size_42" min="0" placeholder="Qty">
+                </div>
+                <div class="size-quantity-item">
+                    <label>43</label>
+                    <input type="number" name="size_43" min="0" placeholder="Qty">
+                </div>
+                <div class="size-quantity-item">
+                    <label>44</label>
+                    <input type="number" name="size_44" min="0" placeholder="Qty">
+                </div>
+                <div class="size-quantity-item">
+                    <label>45</label>
+                    <input type="number" name="size_45" min="0" placeholder="Qty">
+                </div>
+                <div class="size-quantity-item">
+                    <label>46</label>
+                    <input type="number" name="size_46" min="0" placeholder="Qty">
+                </div>
+                <div class="size-quantity-item">
+                    <label>47</label>
+                    <input type="number" name="size_47" min="0" placeholder="Qty">
+                </div>
+            </div>
+            <button type="button" class="add-button" onclick="submitSizes()">ADD SIZES</button>
+        </form>
     </div>
 </div>
 <script>
+
     async function submitNewGoods() {
         const form = document.getElementById('addGoodsForm');
         const formData = new FormData(form);
@@ -139,36 +271,57 @@
             name: formData.get('name'),
             article: formData.get('article'),
             category: formData.get('category'),
-            size: parseInt(formData.get('size')),
-            quantity: parseInt(formData.get('quantity')),
             price: parseFloat(formData.get('price')),
             currency: formData.get('currency'),
         };
 
         try {
-            const response = await fetch('/goods/addNewGoods', {
+            const response = await fetch('/newGoods/addNewGoods', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(newGoods),
             });
-
-            if (!response.ok) {
-                throw new Error("Error adding new goods");
-            }
-
-            alert("Goods added successfully!");
-            form.reset();
+            const serverMessage = await response.json();
+            alert(serverMessage.message);
         } catch (error) {
-            alert("Error: " + error.message);
+            alert("An error occurred: " + error.message);
         }
     }
-        function redirectToDashboard() {
+
+    async function submitSizes() {
+        const form = document.getElementById('addSizesForm');
+        const formData = new FormData(form);
+
+        const article = formData.get('article');
+        const category = formData.get('category');
+        const sizes = [];
+
+        for (let i = 30; i <= 47; i++) {
+            const quantity = parseInt(formData.get(`size_${i}`) || 0);
+            sizes.push({ size: i, quantity });
+        }
+
+        try {
+            const response = await fetch('/newGoods/addSizes', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ article, category, sizes }),
+            });
+
+            const serverMessage = await response.json();
+            alert(serverMessage.message);
+        } catch (error) {
+            alert("An error occurred: " + error.message);
+        }
+    }
+
+    function redirectToDashboard() {
         window.location.href = "/admin/dashboard";
     }
+
+
+
 </script>
 </body>
+
 </html>
-
-
-
-

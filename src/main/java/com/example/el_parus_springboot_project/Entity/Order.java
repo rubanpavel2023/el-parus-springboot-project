@@ -95,7 +95,7 @@ public class Order {
     }
 
     @PostPersist
-    @PostLoad
+    //@PostLoad
     public void populateOrderItemsMap() {
         if (orderItemsMap.isEmpty() && itemsDescription != null) {
             orderItemsMap.putAll(parseItemsDescription(itemsDescription));

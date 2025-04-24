@@ -1,4 +1,4 @@
-package com.example.el_parus_springboot_project.Entity;
+package com.example.el_parus_springboot_project.Entity.Goods;
 
 import jakarta.persistence.*;
 
@@ -9,12 +9,10 @@ public class Goods {
     public Goods() {
     }
 
-    public Goods(String name, String article, String category, Integer size, Integer quantity, Double price, String currency) {
+    public Goods(String name, String article, String category, Double price, String currency) {
         this.name = name;
         this.article = article;
         this.category = category;
-        this.size = size;
-        this.quantity = quantity;
         this.price = price;
         this.currency = currency;
     }
@@ -29,12 +27,8 @@ public class Goods {
     @Column(nullable = false, unique = true)
     private String article;
 
-    private String category;
-
-    private Integer size;
-
     @Column(nullable = false)
-    private Integer quantity;
+    private String category;
 
     @Column(nullable = false)
     private Double price;
@@ -76,22 +70,6 @@ public class Goods {
 
     public void setCategory(String category) {
         this.category = category;
-    }
-
-    public Integer getSize() {
-        return size;
-    }
-
-    public void setSize(Integer size) {
-        this.size = size;
-    }
-
-    public Integer getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
     }
 
     public Double getPrice() {
