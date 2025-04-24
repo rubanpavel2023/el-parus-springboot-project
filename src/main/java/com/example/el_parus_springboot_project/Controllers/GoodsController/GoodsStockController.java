@@ -1,13 +1,10 @@
-package com.example.el_parus_springboot_project.Controllers;
+package com.example.el_parus_springboot_project.Controllers.GoodsController;
 
-import com.example.el_parus_springboot_project.Entity.Goods;
 import com.example.el_parus_springboot_project.Service.GoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -22,15 +19,14 @@ public class GoodsStockController {
         this.goodsService = goodsService;
     }
 
-
     @GetMapping("/all")
-    public List<Goods> getAllGoods() {
-        return goodsService.getAllGoods();
+    public ResponseEntity<List<Map<String, Object>>> getAllGoodsWithSizes() {
+        return goodsService.getAllGoodsWithSizes();
     }
 
     @GetMapping("/article/{article}")
-    public Goods getGoodsByArticle(@PathVariable String article) {
-        return goodsService.getGoodsByArticle(article);
+    public ResponseEntity<Map<String, Object>> getGoodsByArticle(@PathVariable String article) {
+        return goodsService.getGoodsWithSizesByArticle(article);
     }
 
 
@@ -39,4 +35,5 @@ public class GoodsStockController {
         return goodsService.deleteGoodsById(id);
 
     }
+
 }

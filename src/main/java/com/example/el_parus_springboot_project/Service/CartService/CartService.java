@@ -1,9 +1,13 @@
 package com.example.el_parus_springboot_project.Service.CartService;
 
-import com.example.el_parus_springboot_project.Entity.Cart;
-import com.example.el_parus_springboot_project.Entity.Goods;
+import com.example.el_parus_springboot_project.Entity.Cart.Cart;
+import com.example.el_parus_springboot_project.Entity.Cart.CartArticleMap;
+import com.example.el_parus_springboot_project.Entity.Goods.Goods;
+import com.example.el_parus_springboot_project.Entity.Goods.SizeQuantity;
 import com.example.el_parus_springboot_project.Repositories.CartRepository;
-import com.example.el_parus_springboot_project.Service.GoodsService;
+import com.example.el_parus_springboot_project.Repositories.GoodsRepository.GoodsRepository;
+import com.example.el_parus_springboot_project.Repositories.GoodsRepository.SizeQuantityRepository;
+import com.example.el_parus_springboot_project.Service.SizeQuantityService.SizeQuantityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
@@ -12,8 +16,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
 
 @Service
 public class CartService {
@@ -22,94 +26,121 @@ public class CartService {
     private CartRepository cartRepository;
 
     @Autowired
-    private GoodsService goodsService;
+    private GoodsRepository goodsRepository;
+
+    @Autowired
+    private SizeQuantityService sizeQuantityService;
+
+    @Autowired
+    private SizeQuantityRepository sizeQuantityRepository;
+
 
     @Transactional
-    public Map<String, Object> addToCart(Cart item, String sessionId) {
-        item.setSessionId(sessionId);
+    public ResponseEntity<Map<String, Object>> addToCart(List<CartArticleMap> items, String sessionId) {
 
-        if (item.getArticle() == null || item.getQuantity() < 1 || item.getPricePerUnit() <= 0) {
-            return Map.of("message", "Incorrect data for adding to cart", "errorCode", "INVALID_DATA");
-        }
+        try {
 
-        Goods goods = goodsService.getGoodsByArticle(item.getArticle());
-        if (goods == null) {
-            return Map.of("message", "Goods not found", "errorCode", "ITEM_NOT_FOUND");
-        }
-        int startAvailableQuantity = goods.getQuantity();
-
-        int totalReservedQuantity = getTotalReservedItemsInAllCartsOtherCustomers(item);
-        int availableQuantity = startAvailableQuantity - totalReservedQuantity;
-
-        Cart existingItem = getCartItemsByArticleAndBySession(item.getArticle(), sessionId);
-        int currentCartQuantity = (existingItem != null) ? existingItem.getQuantity() : 0;
-
-
-        if (item.getQuantity() > availableQuantity) {
-            return Map.of(
-                    "message", "The requested quantity exceeds the available quantity. Remaining: " + availableQuantity + " un.");
-
-        }
-        int updatedAvailableQuantity = currentCartQuantity + item.getQuantity();
-
-        if (existingItem != null) {
-
-            existingItem.getArticlesMap().put(
-                    existingItem.getArticle(),
-                    existingItem.getArticlesMap().getOrDefault(existingItem.getArticle(), 0) + item.getQuantity()
-            );
-
-            existingItem.setQuantity(updatedAvailableQuantity);
-            existingItem.setCreatedTime(LocalDateTime.now());
-            cartRepository.save(existingItem);
-        } else {
-            item.getArticlesMap().put(item.getArticle(), item.getQuantity());
-            item.setQuantity(updatedAvailableQuantity);
-            item.setCreatedTime(LocalDateTime.now());
-            cartRepository.save(item);
-        }
-        int newActualAvailableQuantity = availableQuantity - item.getQuantity();
-        goods.setQuantity(newActualAvailableQuantity);
-        goodsService.saveGoods(goods);
-        return Map.of(
-                "message", "The goods has been successfully added to your cart!",
-                "updatedAvailableQuantity", updatedAvailableQuantity
-        );
-    }
-
-    public Cart getCartItemsByArticleAndBySession(String article, String sessionId) {
-        return cartRepository.findByArticleAndSessionId(article, sessionId);
-    }
-
-    public List<Cart> getCartBySession(String sessionId) {
-        return cartRepository.findBySessionId(sessionId);
-    }
-
-    @Transactional
-    public ResponseEntity<String> clearCart(String sessionId) {
-        List<Cart> cartItems = getCartBySession(sessionId);
-        for (Cart item : cartItems) {
-            Goods goods = goodsService.getGoodsByArticle(item.getArticle());
-            if (goods != null) {
-                goods.setQuantity(goods.getQuantity() + item.getQuantity());
-                goodsService.saveGoods(goods);
+            if (items == null || items.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body(Map.of("error", "no goods"));
             }
+
+            Goods goods = goodsRepository.findByArticle(items.getFirst().getArticle());
+            SizeQuantity sizeQuantity = sizeQuantityRepository.findByGoodsAndSize(goods, items.getFirst().getSize());
+            if (sizeQuantity == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(Map.of("error", "Size " + items.getFirst().getSize() + " for the goods " + items.getFirst().getArticle() + " not found"));
+            }
+
+            Integer startAvailableQuantity = sizeQuantity.getQuantity();
+            if (startAvailableQuantity < items.getFirst().getQuantity()) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body(Map.of("error", "Not enough goods. Available: " + startAvailableQuantity));
+            }
+
+            sizeQuantity.setQuantity(startAvailableQuantity - items.getFirst().getQuantity());
+            Cart cart = cartRepository.findBySessionId(sessionId);
+            if (cart == null) {
+                Cart myNewCart = new Cart();
+                myNewCart.setSessionId(sessionId);
+                myNewCart.setCreatedTime(LocalDateTime.now());
+
+                CartArticleMap newItem = new CartArticleMap(myNewCart, items.getFirst().getName(), items.getFirst().getPricePerUnit(), items.getFirst().getArticle(), items.getFirst().getSize(), items.getFirst().getQuantity());
+                myNewCart.getCartArticleMaps().add(newItem);
+
+                cartRepository.save(myNewCart);
+            } else {
+                CartArticleMap existingItem = cart.getCartArticleMaps().stream()
+                        .filter(cam -> cam.getArticle().equals(items.getFirst().getArticle())
+                                && cam.getSize().equals(items.getFirst().getSize()))
+                        .findFirst()
+                        .orElse(null);
+
+                if (existingItem == null) {
+                    CartArticleMap newMyCartArticleMap = new CartArticleMap(cart, items.getFirst().getName(), items.getFirst().getPricePerUnit(), items.getFirst().getArticle(), items.getFirst().getSize(), items.getFirst().getQuantity());
+                    cart.getCartArticleMaps().add(newMyCartArticleMap);
+                } else {
+                    existingItem.setQuantity(existingItem.getQuantity() + items.getFirst().getQuantity());
+                }
+                cart.setCreatedTime(LocalDateTime.now());
+                cartRepository.save(cart);
+            }
+
+            sizeQuantityRepository.save(sizeQuantity);
+
+            return ResponseEntity.ok(Map.of("message", "The goods has been successfully added to your cart!"));
+        } catch (DataAccessException ex) {
+            System.err.println("Error while working with database: " + ex.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("error", "Database error"));
         }
-        clearCartBySessionId(sessionId);
-        return ResponseEntity.ok("The cart has been emptied successfully");
     }
+
+
+    public ResponseEntity<List<CartArticleMap>> getCartBySession(String sessionId) {
+        return ResponseEntity.ok(cartRepository.findCartItemsBySessionId(sessionId));
+    }
+
+
+    @Transactional
+    public ResponseEntity<Map<String, Object>> clearCart(String sessionId) {
+        try {
+            List<CartArticleMap> cartItems = getCartBySessionForService(sessionId);
+            for (CartArticleMap item : cartItems) {
+                SizeQuantity goods = sizeQuantityService.getGoodsByArticleAndSize(item.getArticle(), item.getSize());
+                if (goods != null) {
+                    goods.setQuantity(goods.getQuantity() + item.getQuantity());
+                    sizeQuantityService.saveGoods(goods);
+                }
+            }
+            clearCartBySessionId(sessionId);
+            return ResponseEntity.ok(Map.of("message", "The cart has been emptied successfully"));
+        } catch (DataAccessException ex) {
+            System.err.println("Error while working with database: " + ex.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("error", "Database error"));
+        }
+    }
+
+    public List<CartArticleMap> getCartBySessionForService(String sessionId) {
+        return cartRepository.findCartItemsBySessionId(sessionId);
+    }
+
 
     public void clearCartBySessionId(String sessionId) {
-        cartRepository.deleteBySessionId(sessionId);
+        Cart cart = cartRepository.findBySessionId(sessionId);
+        if (cart != null) {
+            cartRepository.delete(cart);
+        }
     }
 
-    //for admin
-
+    //FOR ADMIN -> ACTIVE CARTS
     @Transactional
     public ResponseEntity<Map<String, Object>> getAllDataCarts() {
         try {
-            List<Map<String, Object>> cartItems = cartRepository.getCarts();
+            List<Map<String, Object>> cartItems = cartRepository.getCartsForAdmin();
             List<Map<String, Object>> sessionTotals = cartRepository.getSessionTotals();
+
             return ResponseEntity.ok(Map.of(
                     "cartItems", cartItems,
                     "sessionTotals", sessionTotals
@@ -120,6 +151,7 @@ public class CartService {
                     .body(Map.of("error", "Database error: failed to load cart data"));
         }
     }
+
 
     @Transactional
     public ResponseEntity<Double> calculateTotalAmountForAllCarts() {
@@ -133,13 +165,7 @@ public class CartService {
         }
     }
 
-    public int getTotalReservedItemsInAllCartsOtherCustomers(Cart item) {
-        List<Cart> cartsWithSameArticle = cartRepository.findByArticle(item.getArticle());
-        return cartsWithSameArticle.stream()
-                .filter(cart -> !cart.getSessionId().equals(item.getSessionId()))
-                .mapToInt(Cart::getQuantity)
-                .sum();
-    }
+//_________________________________________________________________________________
 
     @Transactional
     public Map<String, String> deleteAllCartsCustomers() {
@@ -149,20 +175,16 @@ public class CartService {
                 return Map.of("message", "No carts found in the database to delete");
             }
             for (Cart cart : cartsFromDBase) {
-                Map<String, Integer> articlesMap = cart.getArticlesMap();
-                for (Map.Entry<String, Integer> entry : articlesMap.entrySet()) {
-                    String article = entry.getKey();
-                    int quantity = entry.getValue();
-
-                    Goods goodsFromDBase = goodsService.getGoodsByArticle(article);
-                    if (goodsFromDBase != null) {
-                        int updatedQuantity = goodsFromDBase.getQuantity() + quantity;
-                        goodsFromDBase.setQuantity(updatedQuantity);
-                        goodsService.saveGoods(goodsFromDBase);
+                List<CartArticleMap> itemsCart = cart.getCartArticleMaps();
+                for (CartArticleMap item : itemsCart) {
+                    SizeQuantity goods = sizeQuantityService.getGoodsByArticleAndSize(item.getArticle(), item.getSize());
+                    if (goods != null) {
+                        goods.setQuantity(goods.getQuantity() + item.getQuantity());
+                        sizeQuantityService.saveGoods(goods);
+                        cartRepository.delete(cart);
                     }
                 }
             }
-            cartRepository.deleteAll();
             return Map.of("message", "All carts in the database have been successfully deleted. " +
                     "Stock updated successfully");
         } catch (DataAccessException ex) {
@@ -171,6 +193,7 @@ public class CartService {
 
         }
     }
-
 }
+
+
 

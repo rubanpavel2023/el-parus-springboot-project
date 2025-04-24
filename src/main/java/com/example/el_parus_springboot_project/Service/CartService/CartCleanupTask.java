@@ -1,10 +1,14 @@
 package com.example.el_parus_springboot_project.Service.CartService;
 
-import com.example.el_parus_springboot_project.Entity.Cart;
-import com.example.el_parus_springboot_project.Entity.Goods;
+
+import com.example.el_parus_springboot_project.Entity.Cart.Cart;
+import com.example.el_parus_springboot_project.Entity.Cart.CartArticleMap;
+import com.example.el_parus_springboot_project.Entity.Goods.SizeQuantity;
 import com.example.el_parus_springboot_project.Repositories.CartRepository;
-import com.example.el_parus_springboot_project.Repositories.GoodsRepository;
+import com.example.el_parus_springboot_project.Repositories.GoodsRepository.GoodsRepository;
+import com.example.el_parus_springboot_project.Service.SizeQuantityService.SizeQuantityService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,32 +20,39 @@ import java.util.List;
 public class CartCleanupTask {
 
     @Autowired
-    private CartRepository cartItemRepository;
+    private CartRepository cartRepository;
+
+
+    @Autowired
+    private SizeQuantityService sizeQuantityService;
 
     @Autowired
     private GoodsRepository goodsRepository;
 
-    @Scheduled(fixedRate = 60000)
+
+    @Scheduled(fixedRate = 120000)
     @Transactional
     public void cleanUpOldCartItems() {
-        LocalDateTime expirationTime = LocalDateTime.now().minusMinutes(15);
-        List<Cart> expiredItems = cartItemRepository.findExpiredCartItems(expirationTime);
+        LocalDateTime expirationTime = LocalDateTime.now().minusMinutes(5);
+        List<Cart> expiredItems = cartRepository.findExpiredCartItems(expirationTime);
 
-        for (Cart item : expiredItems) {
+        for (Cart cart : expiredItems) {
             try {
-                Goods goods = goodsRepository.findByArticle(item.getArticle());
-                if (goods != null) {
+                for (CartArticleMap item : cart.getCartArticleMaps()) {
+                    SizeQuantity goods = sizeQuantityService.getGoodsByArticleAndSize(item.getArticle(), item.getSize());
 
-                    goods.setQuantity(goods.getQuantity() + item.getQuantity());
-                    goodsRepository.save(goods);
-                    cartItemRepository.delete(item);
-
+                    if (goods != null) {
+                        goods.setQuantity(goods.getQuantity() + item.getQuantity());
+                        sizeQuantityService.saveGoods(goods);
+                    }
                 }
-            } catch (Exception e) {
-                System.err.println("Error while processing goods: " + item.getArticle() + ", " + e.getMessage());
+                cartRepository.delete(cart);
+            } catch (DataAccessException ex) {
+                System.err.println("Error while working with database: " + ex.getMessage());
             }
         }
     }
+
 }
 
 

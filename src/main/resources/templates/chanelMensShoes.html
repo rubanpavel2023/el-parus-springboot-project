@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="Content-Security-Policy"
@@ -13,7 +14,7 @@
             margin: 0;
             padding: 0;
             font-family: Montserrat, sans-serif;
-            background-color: #000000;
+            background-color: #00000;
         }
 
         h1 {
@@ -22,19 +23,22 @@
             color: #FFFFFF;
         }
 
-        #products {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 30px;
+        #product {
+            position: relative;
+            width: 60%;
+            max-width: 1200px;
+            margin: 0 auto;
             padding: 20px;
-            overflow-y: auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 2fr));
+            gap: 30px;
+
         }
 
         .product-card {
-            width: 220px;
-            height: 380px;
-            padding: 28px;
+            width: 205px;
+            height: 375px;
+            padding: 25px;
             margin: 13px;
             text-align: center;
             display: flex;
@@ -50,12 +54,13 @@
         }
 
         .product-card img {
-            width: 260px;
-            height: 310px;
-            margin: -5px;
+            width: 118%;
+            height: 100%;
+            margin: -3px;
             object-fit: contain;
-            background-color: #fff;
-            border-radius: 10px;
+            background-color: #D7B899;
+            border-radius: 0px;
+            display: block;
         }
 
         .product-card button {
@@ -91,25 +96,38 @@
             margin-right: 10px;
         }
 
-        button {
-            display: block;
-            width: 60%;
-            padding: 5px 15px;
-            margin-top: 20px;
-            font-size: 1.2rem;
+        input[type="number"] {
+            width: 80px;
             text-align: center;
-            color: #fff;
-            background-color: #E6E6FA;
-
+            border: 0.3px solid #000000;
             border-radius: 10px;
-            cursor: pointer;
-            transition: background-color 0.4s ease, transform 0.3s ease;
-            font-family: 'Montserrat', sans-serif;
+            padding: 5px;
+            font-size: 16px;
+            background-color: #D7B899;
         }
 
-        button:hover {
-            background-color: #C0C0C0;
-            transform: scale(1.05);
+        input[type="number"]:hover {
+            border-color: #000000;
+            background-color: #D7B899;
+        }
+
+        input[type="number"]:focus {
+            outline: none;
+            border-color: #000000;
+            background-color: #D7B899;
+        }
+
+        .input-group {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 5px;
+        }
+
+        .input-group label {
+            font-size: 16px;
+            color: #FFFFFF;
         }
 
         .modal {
@@ -125,7 +143,6 @@
             flex-direction: column;
             cursor: default;
             z-index: 1000;
-
         }
 
         .modal.active {
@@ -151,7 +168,9 @@
             background-color: white;
             color: black;
             font-size: 1rem;
-            padding: 10px 20px;
+            width: 150px;
+            padding: 10px;
+            text-align: center;
             cursor: pointer;
             border: 2px solid black;
             border-radius: 10px;
@@ -165,7 +184,7 @@
 
         .home-button {
             position: fixed;
-            top: 7px;
+            top: 20px;
             right: 20px;
             font-size: 1rem;
             padding: 20px 30px;
@@ -179,6 +198,7 @@
             width: auto;
             text-align: center;
             white-space: nowrap;
+
         }
 
         .home-button:hover {
@@ -198,35 +218,48 @@
             height: auto;
             border-radius: 100px;
             position: fixed;
+
         }
     </style>
 </head>
+
 <body>
+
 
 <div class="header">
     <h1>Men's Shoes</h1>
 
-    <button class="home-button" onclick="window.location.href='/title'">HOME</button>
+    <button class="home-button" onclick="window.location.href='/title'">
+        HOME
+    </button>
 
-
-    <div id="products">
+    <div id="product">
 
         <div th:each="product, iterStat : ${goods}" class="product-card">
-            <h2 th:text="${product.name}">Product Name</h2>
+            <h2 th:text="${product.name}" style="font-size: 16px; font-weight: bold; margin-bottom: 10px;">Product
+                Name</h2>
 
-            <img th:src="'/images/gucci/shoes/man/shoesgucci' + ${iterStat.index + 1} + '.jpg'"
-                 alt="Chanel Shoes" th:onclick="'openGallery(this, ' + ${iterStat.index} + ')'">
+            <img th:src="'/images/gucci/shoes/man/shoesgucci' + ${iterStat.index + 1} + '.jpg'" alt="Chanel Shoes"
+                 th:onclick="'openGallery(this, ' + ${iterStat.index} + ')'">
 
             <p><strong>Article:</strong> <span th:text="${product.article}"></span></p>
-            <p>Size: <span th:text="${product.size}"></span></p>
+
             <p>Price: <span th:text="${product.price}"></span> <span th:text="${product.currency}"></span></p>
 
 
-            <input type="number" min="1" value="1"
-                   th:id="'quantity-' + ${product.id}"
-                   th:max="${product.quantity}">
 
-            <button th:attr="onclick=|addToCart(${product.id}, '${product.name}', ${product.size}, ${product.price}, ${product.quantity}, '${product.article}')|">
+            <div class="input-group">
+                <label>Size:</label>
+                <input type="number" min="30" max="47" value="36" th:id="'size-' + ${product.id}">
+            </div>
+
+            <div class="input-group">
+                <label>Quantity:</label>
+                <input type="number" min="1" value="1" th:id="'quantity-' + ${product.id}">
+            </div>
+
+            <button
+                    th:attr="onclick=|addToCart(${product.id}, '${product.name}', ${product.price}, '${product.article}')|">
                 Add to Cart
             </button>
         </div>
@@ -241,11 +274,13 @@
         </div>
     </div>
 </div>
+
 <div class="footer">
     <img src="/images/logo/parus.jpg" alt="logo">
 </div>
-<script>
 
+
+<script>
     let currentImageIndex = 0;
     let images = [];
 
@@ -291,39 +326,52 @@
         }
     }
 
-    function addToCart(productId, productName, productSize, productPrice, availableQuantity, productArticle) {
-      const quantityField = document.querySelector(`#quantity-${productId}`);
-      const quantity = parseInt(quantityField.value, 10) || 1;
-      const item = {
-          name: productName,
-          article: productArticle,
-          size: productSize,
-          quantity: quantity,
-          pricePerUnit: Number(productPrice)
-      };
-      console.log("Sending data to the server:", item);
+    function addToCart(productId, productName, productPrice, productArticle) {
+        const sizeField = document.querySelector(`#size-${productId}`);
+        const selectedSize = parseInt(sizeField.value, 10);
 
-      fetch('/cart/addToCart', {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(item)
-      })
-      .then(response => response.json())
-      .then(data => {
-          if (data.updatedAvailableQuantity !== undefined) {
-              const availableElement = document.querySelector(`#available-${productId}`);
-              if (availableElement) {
-                  availableElement.textContent = data.updatedAvailableQuantity;
-              }
-          }
-          alert(data.message);
-      })
-      .catch(error => {
-          console.error('Error sending request:', error);
-      });
-  }
+        const quantityField = document.querySelector(`#quantity-${productId}`);
+        const quantity = parseInt(quantityField.value, 10) || 1;
+
+        const itemsCart = {
+            name: productName,
+            pricePerUnit: Number(productPrice),
+            article: productArticle,
+            size: selectedSize,
+            quantity: quantity
+        };
+
+        const cartRequest = {
+
+            items: [itemsCart]
+        };
+
+        fetch('/cart/addToCart', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(cartRequest)
+        })
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(err => { throw new Error(err.error || 'Error server'); });
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.message) {
+                    alert(data.message);
+                } else if (data.error) {
+                    alert(data.error);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert(error.message);
+            });
+    }
 </script>
 </body>
+
 </html>

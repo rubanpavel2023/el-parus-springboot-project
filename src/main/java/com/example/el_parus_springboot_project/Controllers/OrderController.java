@@ -21,30 +21,15 @@ public class OrderController {
     @Autowired
     private OrderRepository orderRepository;
 
+
     @PostMapping("/placeOrder")
     public ResponseEntity<Map<String, Object>> placeOrder(@RequestBody Map<String, Object> orderData, HttpSession session) {
-        try {
-
-            String sessionId = session.getId();
-            Map<String, Object> response = orderService.placeOrder(orderData, sessionId);
-
-            return ResponseEntity.ok(Map.of(
-                    "message", "Your order has been successfully placed!",
-                    "order", response
-            ));
-        } catch (IllegalArgumentException | IllegalStateException e) {
-            return ResponseEntity.badRequest().body(Map.of(
-                    "message", e.getMessage()
-            ));
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(500).body(Map.of(
-                    "message", "Error while placing your order(: " + e.getMessage()
-            ));
-        }
+        String sessionId = session.getId();
+        return orderService.placeOrder(orderData, sessionId);
     }
 
-    //for admin
+
+    //FOR ADMIN -> VIEW ORDERS
     @GetMapping("/all")
     public ResponseEntity<List<?>> getAllOrders() {
         return orderService.getAllOrders();
@@ -60,27 +45,12 @@ public class OrderController {
         return orderService.getOrdersByStatusReserved();
     }
 
-    @GetMapping("/phone/{phone}/reserved")
-    public ResponseEntity<List<?>> getOrdersByPhoneAndStatusReserved(@PathVariable String phone) {
-        return orderService.getOrdersByPhoneAndStatusReserved(phone);
-    }
-
-    @DeleteMapping("/{orderId}/delete")
-    public ResponseEntity<Map<String, String>> deleteOrderByPhoneAndStatusReserved(@PathVariable("orderId") Long orderId) {
-        return ResponseEntity.ok(orderService.deleteOrderWithStatusReservedById(orderId));
-    }
-
     @GetMapping("/status/completed")
     public ResponseEntity<List<?>> getOrdersByStatusCompleted() {
         return orderService.getOrdersByStatusCompleted();
     }
 
-
-    @DeleteMapping("/delete/completed")
-    public ResponseEntity<Map<String, String>> deleteCompletedOrders() {
-        return ResponseEntity.ok(orderService.deleteOrderByStatusCompleted());
-    }
-
+    //FOR ADMIN -> CLOSING ORDERS
     @GetMapping("/phone/{phone}/completed")
     public ResponseEntity<List<?>> getOrdersByPhoneOnlyReserved(@PathVariable String phone) {
         return orderService.getOrdersByPhoneAndStatusReserved(phone);
@@ -89,6 +59,22 @@ public class OrderController {
     @PutMapping("/{id}/completed")
     public ResponseEntity<Map<String, String>> markOrderAsCompleted(@PathVariable("id") Long orderId) {
         return ResponseEntity.ok(orderService.updateStatusOrderToCompleted(orderId));
+    }
+    //____________________________________________________________________
+   //FOR ADMIN -> DELETING ORDERS
+ /*   @GetMapping("/phone/{phone}/reserved")
+    public ResponseEntity<List<?>> getOrdersByPhoneAndStatusReserved(@PathVariable String phone) {
+        return orderService.getOrdersByPhoneAndStatusReserved(phone);
+    }
+
+    @DeleteMapping("/{orderId}/delete")
+    public ResponseEntity<Map<String, String>> deleteOrderByPhoneAndStatusReserved(@PathVariable("orderId") Long orderId) {
+        return ResponseEntity.ok(orderService.deleteOrderWithStatusReservedById(orderId));
+    }*/
+
+    @DeleteMapping("/delete/completed")
+    public ResponseEntity<Map<String, String>> deleteCompletedOrders() {
+        return ResponseEntity.ok(orderService.deleteOrderByStatusCompleted());
     }
 
 
