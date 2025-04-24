@@ -2,10 +2,12 @@ package com.example.el_parus_springboot_project.Service;
 
 
 import com.example.el_parus_springboot_project.Entity.Cart.CartArticleMap;
+import com.example.el_parus_springboot_project.Entity.Goods.SizeQuantity;
 import com.example.el_parus_springboot_project.Repositories.CartRepository;
 import com.example.el_parus_springboot_project.Entity.Order;
 import com.example.el_parus_springboot_project.Repositories.OrderRepository;
 import com.example.el_parus_springboot_project.Service.CartService.CartService;
+import com.example.el_parus_springboot_project.Service.SizeQuantityService.SizeQuantityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
@@ -14,6 +16,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -29,6 +33,9 @@ public class OrderService {
 
     @Autowired
     private GoodsService goodsService;
+
+    @Autowired
+    private SizeQuantityService sizeQuantityService;
 
     @Autowired
     private CartService cartService;
@@ -168,14 +175,15 @@ public class OrderService {
 
     //FOR ADMIN -> CLOSING ORDERS
     @Transactional
-    public Map<String, String> updateStatusOrderToCompleted(Long id) {
+    public ResponseEntity<Map<String, String>> updateStatusOrderToCompleted(Long id) {
         try {
             orderRepository.updateOrderStatus(id, "completed");
-            return Map.of("message", "Order " + id + " successfully identified with status 'completed'");
+            return ResponseEntity.ok(Map.of("message", "Order " + id + " successfully identified with status 'completed'"));
 
         } catch (DataAccessException ex) {
             System.err.println("Error while working with database: " + ex.getMessage());
-            return Map.of("message", "Database error: status update failed ");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("message", "Database error: status update failed "));
 
         }
     }
@@ -195,43 +203,70 @@ public class OrderService {
 
     //FOR ADMIN -> DELETING ORDERS
     @Transactional
-    public Map<String, String> deleteOrderByStatusCompleted() {
+    public ResponseEntity<Map<String, String>> deleteOrderByStatusCompleted() {
         try {
             if (!orderRepository.existsByStatus("completed")) {
-                return Map.of("message", "Orders with status 'Completed' are not in the database. \n" +
-                        "No deletion required");
+                return ResponseEntity.ok(Map.of("message", "Orders with status 'Completed' are not in the database. \n" +
+                        "No deletion required"));
             }
             orderRepository.deleteByStatusCompleted();
-            return Map.of("message", "All orders with status 'Completed' have been successfully deleted");
+            return ResponseEntity.ok(Map.of("message", "All orders with status 'Completed' have been successfully deleted"));
 
         } catch (DataAccessException ex) {
             System.err.println("Error while working with database: " + ex.getMessage());
-            return Map.of("message", "Database error: unable to delete ");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("message", "Database error: unable to delete "));
 
         }
     }
 
 
- /*   @Transactional
-    public Map<String, String> deleteOrderWithStatusReservedById(Long id) {
-        Order order = orderRepository.findById(id).get();
+    private List<Map<String, int[]>> parseItemsDescriptionService(String itemsDescription) {
+        List<Map<String, int[]>> parsedItemsList = new ArrayList<>();
+        String[] items = itemsDescription.split(";");
 
-        Map<String, Integer> itemsMap = order.getOrderItemsMap();
-        for (Map.Entry<String, Integer> entry : itemsMap.entrySet()) {
-            String article = entry.getKey();
-            int quantity = entry.getValue();
-
-            Goods goodsFromDBase = goodsService.getGoodsByArticle(article);
-            if (goodsFromDBase != null) {
-                int updatedQuantity = goodsFromDBase.getQuantity() + quantity;
-                goodsFromDBase.setQuantity(updatedQuantity);
-                goodsService.saveGoods(goodsFromDBase);
+        for (String item : items) {
+            if (item.contains("Quantity") && item.contains("Size")) {
+                Map<String, int[]> itemMap = new HashMap<>();
+                String article = item.substring(item.indexOf("(") + 1, item.indexOf(","));
+                String sizeStr = item.substring(item.indexOf("Size:") + 5, item.indexOf(", Quantity")).trim();
+                int size = Integer.parseInt(sizeStr);
+                String quantityStr = item.substring(item.indexOf("Quantity:") + 9).trim().replace(")", "");
+                int quantity = Integer.parseInt(quantityStr);
+                itemMap.put(article, new int[]{size, quantity});
+                parsedItemsList.add(itemMap);
             }
         }
 
-        orderRepository.delete(order);
-        return Map.of("message", "Order deleted." +
-                "Stock updated successfully");
-    }*/
+        return parsedItemsList;
+    }
 
+
+    @Transactional
+    public ResponseEntity<Map<String, String>> deleteOrderWithStatusReservedById(Long id) {
+        try {
+            Order order = orderRepository.findById(id).get();
+            List<Map<String, int[]>> itemsMap = parseItemsDescriptionService(order.getItemsDescription());
+            for (Map<String, int[]> itemOrder : itemsMap) {
+                String article = itemOrder.keySet().stream().findFirst().orElse(null);
+                int[] extractedValue = itemOrder.get(article);
+                int size = extractedValue[0];
+                int quantity = extractedValue[1];
+                SizeQuantity goods = sizeQuantityService.getGoodsByArticleAndSize(article, size);
+                if (goods != null) {
+                    goods.setQuantity(goods.getQuantity() + quantity);
+                    sizeQuantityService.saveGoods(goods);
+                }
+            }
+            orderRepository.delete(order);
+            return ResponseEntity.ok(Map.of("message", "Order deleted." +
+                    "Stock updated successfully"));
+
+        } catch (DataAccessException ex) {
+            System.err.println("Error while working with database: " + ex.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("error", "Database error"));
+        }
+    }
 }
+

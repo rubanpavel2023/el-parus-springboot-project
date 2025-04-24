@@ -58,23 +58,23 @@ public class OrderController {
 
     @PutMapping("/{id}/completed")
     public ResponseEntity<Map<String, String>> markOrderAsCompleted(@PathVariable("id") Long orderId) {
-        return ResponseEntity.ok(orderService.updateStatusOrderToCompleted(orderId));
+        return orderService.updateStatusOrderToCompleted(orderId);
     }
     //____________________________________________________________________
    //FOR ADMIN -> DELETING ORDERS
- /*   @GetMapping("/phone/{phone}/reserved")
+    @GetMapping("/phone/{phone}/reserved")
     public ResponseEntity<List<?>> getOrdersByPhoneAndStatusReserved(@PathVariable String phone) {
         return orderService.getOrdersByPhoneAndStatusReserved(phone);
     }
 
     @DeleteMapping("/{orderId}/delete")
     public ResponseEntity<Map<String, String>> deleteOrderByPhoneAndStatusReserved(@PathVariable("orderId") Long orderId) {
-        return ResponseEntity.ok(orderService.deleteOrderWithStatusReservedById(orderId));
-    }*/
+        return orderService.deleteOrderWithStatusReservedById(orderId);
+    }
 
     @DeleteMapping("/delete/completed")
     public ResponseEntity<Map<String, String>> deleteCompletedOrders() {
-        return ResponseEntity.ok(orderService.deleteOrderByStatusCompleted());
+        return orderService.deleteOrderByStatusCompleted();
     }
 
 
