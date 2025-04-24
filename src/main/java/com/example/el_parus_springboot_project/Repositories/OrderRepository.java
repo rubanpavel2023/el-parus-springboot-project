@@ -13,6 +13,7 @@ import java.util.List;
 
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
+
     List<Order> findByCustomerPhone(String phone);
 
     List<Order> findByStatus(String status);

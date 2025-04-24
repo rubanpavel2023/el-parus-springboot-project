@@ -59,14 +59,3 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
 
 
 
-
-
-
-
-
-
-  /*  @Query("SELECT c FROM Cart c JOIN FETCH c.cartArticleMaps WHERE c.sessionId = :sessionId")
-    Cart findBySessionIdWithItems(@Param("sessionId") String sessionId);*/
-
-
-
