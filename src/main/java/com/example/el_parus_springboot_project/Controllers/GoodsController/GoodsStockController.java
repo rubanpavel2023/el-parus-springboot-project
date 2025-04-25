@@ -36,4 +36,9 @@ public class GoodsStockController {
 
     }
 
+    @DeleteMapping("/delete/all")
+    public ResponseEntity<Map<String, String>> deleteAllCartsBuyers() {
+        return goodsService.deleteAllGoods();
+    }
+
 }

@@ -135,9 +135,17 @@ public class GoodsService {
         }
     }
 
-    /*public Goods getGoodsByArticleAndSize(String article, Integer size) {
-        return .findByArticleAndSize(article, size );
-    }*/
+    public ResponseEntity<Map<String, String>> deleteAllGoods() {
+        try {
+            sizeQuantityRepository.deleteAll();
+            goodsRepository.deleteAll();
+            return ResponseEntity.ok(Map.of("message", "All goods have been successfully removed!!"));
+        } catch (DataAccessException ex) {
+            System.err.println("Error while working with database: " + ex.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("message", "error deleting all goods"));
+        }
+    }
 
 
 }
