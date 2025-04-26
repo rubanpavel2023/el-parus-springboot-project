@@ -8,6 +8,8 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -33,7 +35,14 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     @Query("UPDATE Order SET status = :status WHERE id = :id")
     void updateOrderStatus(@Param("id") Long id, @Param("status") String status);
 
+    @Query("SELECT o FROM Order o WHERE LOWER(o.status) = 'completed' AND o.orderDate BETWEEN :startDate AND :endDate")
+    List<Order> findCompletedOrdersByDateRange(
+            @Param("startDate") LocalDateTime startDate,
+            @Param("endDate") LocalDateTime endDate);
+
 }
+
+
 
 
 

@@ -329,22 +329,30 @@ background-color: #f0f0f0; border-radius: 25px; box-shadow: 0 8px 20px rgba(0, 0
     </div>
 
     <div id="salesModal"
-         style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 600px; height: 170px; background: white; border-radius: 10px;
-    font-size: 25px; border: 1px solid #89ac76; box-shadow: 0 12px 12px rgba(0, 12, 12, 12); z-index: 1100; padding: 15px; font-family: 'Montserrat', sans-serif, cursive;">
+         style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 600px; height: 160px; background: white; border-radius: 10px;
+     font-size: 25px; border: 1px solid #89ac76; box-shadow: 0 12px 12px rgba(0, 12, 12, 12); z-index: 1100; padding: 15px; font-family: 'Montserrat', sans-serif, cursive;">
         <div
                 style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-direction: column">
-            <div> <label for="startDate">start date:</label>
+            <div>
+                <label for="startDate">start date:</label>
                 <input type="date" id="startDate"
                        style="width: 170px; border: 1px solid #89ac76; border-radius: 10px; font-size: 20px; margin-right: 5px;">
                 <p></p>
             </div>
-            <div> <label for="endDate">end date:</label>
+            <div>
+                <label for="endDate">end date:</label>
                 <input type="date" id="endDate"
                        style="width: 170px; border: 1px solid #89ac76; border-radius: 10px; font-size: 20px; margin-right: 5px;">
             </div>
-            <button onclick="loadSalesData()"
-                    style="position: absolute; bottom: 20px; right: 20px; padding: 10px 20px; background: #89ac76; color: white; border: none; border-radius: 10px;">LOAD
-                ORDERS</button>
+
+            <div style="display: grid; grid-template-columns: 200px 200px; gap: 20px; justify-content: center;
+             position: absolute; bottom: 20px; left: 20px; right: 20px;">
+                <button onclick="closeSalesModal()"
+                        style="padding: 10px 20px; background: #89ac76; color: white; border: none; border-radius: 10px;">CLOSE</button>
+                <button onclick="loadSalesData()"
+                        style="padding: 10px 20px; background: #89ac76; color: white; border: none; border-radius: 10px;">LOAD
+                    ORDERS</button>
+            </div>
         </div>
     </div>
 
@@ -395,70 +403,70 @@ background-color: #f0f0f0; border-radius: 25px; box-shadow: 0 8px 20px rgba(0, 0
 
     function displayGoods(goods) {
         const modalHtml = `
-    <div id="goodsModal"
-         style="position: fixed; top: 22%; left: 50%; transform: translate(-50%, 0); width: 92%; height: 75%;
-                background: rgba(255, 255, 255, 0.95); border-radius: 10px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-                overflow-y: auto; z-index: 1000;">
-        <div style="padding: 20px;">
-            <table style="width: 100%; border-collapse: collapse; margin-bottom: 30px; text-align: center;">
-                <thead style="position: sticky; top: 0; z-index: 1;">
-                    <tr style="background-color: #808080;">
-                        <th style="border: 1px solid #ddd; padding: 8px;">ID</th>
-                        <th style="border: 1px solid #ddd; padding: 8px;">Article</th>
-                        <th style="border: 1px solid #ddd; padding: 8px;">Name</th>
-                        <th style="border: 1px solid #ddd; padding: 8px;">Category</th>
-                        <th style="border: 1px solid #ddd; padding: 8px;">Price</th>
-                        <th style="border: 1px solid #ddd; padding: 8px;">Currency</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    ${goods.length === 0
+<div id="goodsModal"
+ style="position: fixed; top: 22%; left: 50%; transform: translate(-50%, 0); width: 92%; height: 75%;
+        background: rgba(255, 255, 255, 0.95); border-radius: 10px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        overflow-y: auto; z-index: 1000;">
+<div style="padding: 20px;">
+    <table style="width: 100%; border-collapse: collapse; margin-bottom: 30px; text-align: center;">
+        <thead style="position: sticky; top: 0; z-index: 1;">
+            <tr style="background-color: #808080;">
+                <th style="border: 1px solid #ddd; padding: 8px;">ID</th>
+                <th style="border: 1px solid #ddd; padding: 8px;">Article</th>
+                <th style="border: 1px solid #ddd; padding: 8px;">Name</th>
+                <th style="border: 1px solid #ddd; padding: 8px;">Category</th>
+                <th style="border: 1px solid #ddd; padding: 8px;">Price</th>
+                <th style="border: 1px solid #ddd; padding: 8px;">Currency</th>
+            </tr>
+        </thead>
+        <tbody>
+            ${goods.length === 0
                 ? `<tr>
-                                   <td colspan="6" style="text-align: center; padding: 10px;">No goods</td>
-                               </tr>`
+                           <td colspan="6" style="text-align: center; padding: 10px;">No goods</td>
+                       </tr>`
                 : goods.map(item => `
-                                <tr>
-                                    <td style="border: 1px solid #ddd; padding: 8px;">${item.id}</td>
-                                    <td style="border: 1px solid #ddd; padding: 8px;">${item.article}</td>
-                                    <td style="border: 1px solid #ddd; padding: 8px;">${item.name}</td>
-                                    <td style="border: 1px solid #ddd; padding: 8px;">${item.category}</td>
-                                    <td style="border: 1px solid #ddd; padding: 8px;">${item.price.toFixed(2)}</td>
-                                    <td style="border: 1px solid #ddd; padding: 8px;">${item.currency}</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="6" style="padding: 0;">
-                                        <table style="width: 100%; border-collapse: collapse; margin-bottom: 30px; text-align: center;">
-                                            <thead>
-                                                <tr>
-                                                    ${Array.from({ length: 18 }, (_, i) => `
-                                                        <th>${30 + i}</th>
-                                                    `).join('')}
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    ${Array.from({ length: 18 }, (_, i) => {
+                        <tr>
+                            <td style="border: 1px solid #ddd; padding: 8px;">${item.id}</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">${item.article}</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">${item.name}</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">${item.category}</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">${item.price.toFixed(2)}</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">${item.currency}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="6" style="padding: 0;">
+                                <table style="width: 100%; border-collapse: collapse; margin-bottom: 30px; text-align: center;">
+                                    <thead>
+                                        <tr>
+                                            ${Array.from({ length: 18 }, (_, i) => `
+                                                <th>${30 + i}</th>
+                                            `).join('')}
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            ${Array.from({ length: 18 }, (_, i) => {
                     const size = 30 + i;
                     const quantity = item.sizes?.find(s => s.size === size)?.quantity || 0;
                     return `
-                                                            <td style="border: 1px solid #ddd; padding: 4px; color: green;">${quantity}</td>
-                                                        `;
+                                                    <td style="border: 1px solid #ddd; padding: 4px; color: green;">${quantity}</td>
+                                                `;
                 }).join('')}
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </td>
-                                </tr>
-                            `).join('')
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    `).join('')
             }
-                </tbody>
-            </table>
-            <button onclick="closeGoodsModal()"
-                    style="padding: 10px 20px; background: #FFD700; color: white; border: none; border-radius: 4px;">
-                Close
-            </button>
-        </div>
-    </div>
+        </tbody>
+    </table>
+    <button onclick="closeGoodsModal()"
+            style="padding: 10px 20px; background: #FFD700; color: white; border: none; border-radius: 4px;">
+        Close
+    </button>
+</div>
+</div>
 `;
         document.body.insertAdjacentHTML('beforeend', modalHtml);
     }
@@ -582,43 +590,43 @@ background-color: #f0f0f0; border-radius: 25px; box-shadow: 0 8px 20px rgba(0, 0
 
     function displayOrders(orders) {
         const modalHtml = `
-    <div id="orderModal" style="position: fixed; top: 22%; left: 50%; transform: translate(-50%, 0); width: 92%; height: 75%;
-    background: rgba(255, 255, 255, 0.95); border-radius: 10px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); overflow-y: auto; z-index: 1000;">
-        <div style="padding: 20px;">
+<div id="orderModal" style="position: fixed; top: 22%; left: 50%; transform: translate(-50%, 0); width: 92%; height: 75%;
+background: rgba(255, 255, 255, 0.95); border-radius: 10px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); overflow-y: auto; z-index: 1000;">
+<div style="padding: 20px;">
 
-            <table style="width: 100%; border-collapse: collapse; text-align: left;">
-                <thead style="position: sticky; top: 0; z-index: 1;">
-                    <tr style="background-color: #808080;">
-                        <th style="border: 1px solid #ddd; padding: 8px;">Order Number</th>
-                        <th style="border: 1px solid #ddd; padding: 8px;">First and Last Name</th>
-                        <th style="border: 1px solid #ddd; padding: 8px;">Telephone</th>
-                        <th style="border: 1px solid #ddd; padding: 8px;">Goods</th>
-                        <th style="border: 1px solid #ddd; padding: 8px;">Date</th>
-                        <th style="border: 1px solid #ddd; padding: 8px;">Sum</th>
-                        <th style="border: 1px solid #ddd; padding: 8px;">Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    ${orders.length === 0
+    <table style="width: 100%; border-collapse: collapse; text-align: left;">
+        <thead style="position: sticky; top: 0; z-index: 1;">
+            <tr style="background-color: #808080;">
+                <th style="border: 1px solid #ddd; padding: 8px;">Order Number</th>
+                <th style="border: 1px solid #ddd; padding: 8px;">First and Last Name</th>
+                <th style="border: 1px solid #ddd; padding: 8px;">Telephone</th>
+                <th style="border: 1px solid #ddd; padding: 8px;">Goods</th>
+                <th style="border: 1px solid #ddd; padding: 8px;">Date</th>
+                <th style="border: 1px solid #ddd; padding: 8px;">Sum</th>
+                <th style="border: 1px solid #ddd; padding: 8px;">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            ${orders.length === 0
                 ? `<tr><td colspan="7" style="text-align: center; padding: 10px;">No orders</td></tr>`
                 : orders.map(order => `
-                                <tr>
-                                    <td style="border: 1px solid #ddd; padding: 8px;">${order.id}</td>
-                                    <td style="border: 1px solid #ddd; padding: 8px;">${order.customerName}</td>
-                                    <td style="border: 1px solid #ddd; padding: 8px;">${order.customerPhone}</td>
-                                    <td style="border: 1px solid #ddd; padding: 8px;">${order.itemsDescription}</td>
-                                    <td style="border: 1px solid #ddd; padding: 8px;">${new Date(order.orderDate).toLocaleString()}</td>
-                                    <td style="border: 1px solid #ddd; padding: 8px;">${order.totalPrice?.toFixed(2)} USD</td>
-                                    <td style="border: 1px solid #ddd; padding: 8px;">${order.status}</td>
-                                </tr>
-                            `).join('')
+                        <tr>
+                            <td style="border: 1px solid #ddd; padding: 8px;">${order.id}</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">${order.customerName}</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">${order.customerPhone}</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">${order.itemsDescription}</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">${new Date(order.orderDate).toLocaleString()}</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">${order.totalPrice?.toFixed(2)} USD</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">${order.status}</td>
+                        </tr>
+                    `).join('')
             }
-                </tbody>
-            </table>
-            <button onclick="closeOrderModal()" style="margin-top: 20px; padding: 10px 20px;
-            background: #FFD700; color: white; border: none; border-radius: 4px;">Close</button>
-        </div>
-    </div>
+        </tbody>
+    </table>
+    <button onclick="closeOrderModal()" style="margin-top: 20px; padding: 10px 20px;
+    background: #FFD700; color: white; border: none; border-radius: 4px;">Close</button>
+</div>
+</div>
 `;
         document.body.insertAdjacentHTML('beforeend', modalHtml);
     }
@@ -650,53 +658,53 @@ background-color: #f0f0f0; border-radius: 25px; box-shadow: 0 8px 20px rgba(0, 0
 
     function displayOrdersWithButtonDelete(orders) {
         const modalHtml = `
-    <div id="orderModal" style="position: fixed; top: 22%; left: 50%; transform: translate(-50%, 0); width: 92%; height: 75%;
-    background: rgba(255, 255, 255, 0.95); border-radius: 10px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); overflow-y: auto; z-index: 1000;">
-        <div style="padding: 20px;">
-            ${!orders || orders.length === 0
+<div id="orderModal" style="position: fixed; top: 22%; left: 50%; transform: translate(-50%, 0); width: 92%; height: 75%;
+background: rgba(255, 255, 255, 0.95); border-radius: 10px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); overflow-y: auto; z-index: 1000;">
+<div style="padding: 20px;">
+    ${!orders || orders.length === 0
                 ? `<div style="text-align: center; padding: 10px; font-size: 16px;">No orders</div>`
                 : orders.map(order => `
-                        <div style="border: 2px solid #808080; margin-bottom: 20px; border-radius: 8px; padding: 15px;">
-                            <table style="width: 100%; border-collapse: collapse; text-align: left; border: 1px solid #ccc;">
-                                <thead>
-                                    <tr style="background-color: #808080; color: white;">
-                                        <th style="border: 1px solid #ddd; padding: 8px;">Order Number</th>
-                                        <th class="fixed-column" style="border: 1px solid #ddd; padding: 8px;">First and Last Name</th>
-                                        <th style="border: 1px solid #ddd; padding: 8px;">Telephone</th>
-                                        <th class="fixed-column" style="border: 1px solid #ddd; padding: 8px;">Goods</th>
-                                        <th style="border: 1px solid #ddd; padding: 8px;">Date</th>
-                                        <th class="fixed-column" style="border: 1px solid #ddd; padding: 8px;">Sum</th>
-                                        <th style="border: 1px solid #ddd; padding: 8px;">Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td style="border: 1px solid #ddd; padding: 8px;">${order.id}</td>
-                                        <td class="fixed-column" style="border: 1px solid #ddd; padding: 8px;">${order.customerName}</td>
-                                        <td style="border: 1px solid #ddd; padding: 8px;">${order.customerPhone}</td>
-                                        <td class="fixed-column" style="border: 1px solid #ddd; padding: 8px;">${order.itemsDescription}</td>
-                                        <td style="border: 1px solid #ddd; padding: 8px;">${new Date(order.orderDate).toLocaleString()}</td>
-                                        <td class="fixed-column" style="border: 1px solid #ddd; padding: 8px;">${order.totalPrice?.toFixed(2)} USD</td>
-                                        <td style="border: 1px solid #ddd; padding: 8px;">${order.status}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <div style="text-align: right; margin-top: 10px;">
-                                <button onclick="deleteOrder(${order.id})"
-                                    style="background-color: #dc3545; color: white; padding: 10px 20px; border: none; border-radius: 4px; width: 100px;">
-                                    Delete
-                                </button>
-                            </div>
-                        </div>
-                    `).join('')
+                <div style="border: 2px solid #808080; margin-bottom: 20px; border-radius: 8px; padding: 15px;">
+                    <table style="width: 100%; border-collapse: collapse; text-align: left; border: 1px solid #ccc;">
+                        <thead>
+                            <tr style="background-color: #808080; color: white;">
+                                <th style="border: 1px solid #ddd; padding: 8px;">Order Number</th>
+                                <th class="fixed-column" style="border: 1px solid #ddd; padding: 8px;">First and Last Name</th>
+                                <th style="border: 1px solid #ddd; padding: 8px;">Telephone</th>
+                                <th class="fixed-column" style="border: 1px solid #ddd; padding: 8px;">Goods</th>
+                                <th style="border: 1px solid #ddd; padding: 8px;">Date</th>
+                                <th class="fixed-column" style="border: 1px solid #ddd; padding: 8px;">Sum</th>
+                                <th style="border: 1px solid #ddd; padding: 8px;">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="border: 1px solid #ddd; padding: 8px;">${order.id}</td>
+                                <td class="fixed-column" style="border: 1px solid #ddd; padding: 8px;">${order.customerName}</td>
+                                <td style="border: 1px solid #ddd; padding: 8px;">${order.customerPhone}</td>
+                                <td class="fixed-column" style="border: 1px solid #ddd; padding: 8px;">${order.itemsDescription}</td>
+                                <td style="border: 1px solid #ddd; padding: 8px;">${new Date(order.orderDate).toLocaleString()}</td>
+                                <td class="fixed-column" style="border: 1px solid #ddd; padding: 8px;">${order.totalPrice?.toFixed(2)} USD</td>
+                                <td style="border: 1px solid #ddd; padding: 8px;">${order.status}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div style="text-align: right; margin-top: 10px;">
+                        <button onclick="deleteOrder(${order.id})"
+                            style="background-color: #dc3545; color: white; padding: 10px 20px; border: none; border-radius: 4px; width: 100px;">
+                            Delete
+                        </button>
+                    </div>
+                </div>
+            `).join('')
             }
-            <div style="margin-top: 40px; text-align: left;">
-                <button onclick="closeOrderModal()" style="padding: 10px 20px; background: #FFD700; color: white; border: none; border-radius: 4px;">
-                    Close
-                </button>
-            </div>
-        </div>
+    <div style="margin-top: 40px; text-align: left;">
+        <button onclick="closeOrderModal()" style="padding: 10px 20px; background: #FFD700; color: white; border: none; border-radius: 4px;">
+            Close
+        </button>
     </div>
+</div>
+</div>
 `;
         document.body.insertAdjacentHTML('beforeend', modalHtml);
     }
@@ -768,9 +776,9 @@ background-color: #f0f0f0; border-radius: 25px; box-shadow: 0 8px 20px rgba(0, 0
         let modalHtml = `
 <div id="cartModal"
 style="position: fixed; top: 22%; left: 50%; transform: translate(-50%, 0); width: 92%; height: 75%;
-    background: rgba(255, 255, 255, 0.95); border-radius: 10px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); overflow-y: auto; z-index: 1000;">
+background: rgba(255, 255, 255, 0.95); border-radius: 10px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); overflow-y: auto; z-index: 1000;">
 <div style="padding: 20px;">
-    `;
+`;
 
 
         let groupedCarts = {};
@@ -804,68 +812,68 @@ style="position: fixed; top: 22%; left: 50%; transform: translate(-50%, 0); widt
             const sessionTotal = items.reduce((sum, item) => sum + (item.total_price_position || 0), 0);
 
             modalHtml += `
-    <div style="border: 2px solid #808080; margin-bottom: 20px; border-radius: 8px; padding: 10px;">
-        <h3 style="text-align: left; color: #505050; margin-bottom: 10px;">
-            Cart #${sessionIndex}
-        </h3>
-        <table style="width: 100%; border-collapse: collapse; text-align: left; border: 1px solid #ccc;">
-            <thead>
-                <tr style="background-color: #808080; color: white;">
-                    <th>Created Time</th>
-                    <th>Name</th>
-                    <th>Size</th>
-                    <th>Article</th>
-                    <th>Quantity</th>
-                    <th>Price</th>
-                    <th>Total Price</th>
-                </tr>
-            </thead>
-            <tbody>
-                `;
+<div style="border: 2px solid #808080; margin-bottom: 20px; border-radius: 8px; padding: 10px;">
+<h3 style="text-align: left; color: #505050; margin-bottom: 10px;">
+    Cart #${sessionIndex}
+</h3>
+<table style="width: 100%; border-collapse: collapse; text-align: left; border: 1px solid #ccc;">
+    <thead>
+        <tr style="background-color: #808080; color: white;">
+            <th>Created Time</th>
+            <th>Name</th>
+            <th>Size</th>
+            <th>Article</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Total Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        `;
 
             items.forEach(item => {
                 modalHtml += `
-                <tr>
-                    <td>${formatToLocalTime(item.created_time)}</td>
-                    <td>${item.name ?? "N/A"}</td>
-                    <td>${item.size ?? "N/A"}</td>
-                    <td>${item.article ?? "N/A"}</td>
-                    <td>${item.quantity ?? 0}</td>
-                    <td>${item.price_per_unit?.toFixed(2) || "0.00"} USD</td>
-                    <td>${item.total_price_position?.toFixed(2) || "0.00"} USD</td>
-                </tr>
-                `;
+        <tr>
+            <td>${formatToLocalTime(item.created_time)}</td>
+            <td>${item.name ?? "N/A"}</td>
+            <td>${item.size ?? "N/A"}</td>
+            <td>${item.article ?? "N/A"}</td>
+            <td>${item.quantity ?? 0}</td>
+            <td>${item.price_per_unit?.toFixed(2) || "0.00"} USD</td>
+            <td>${item.total_price_position?.toFixed(2) || "0.00"} USD</td>
+        </tr>
+        `;
             });
 
             modalHtml += `
-            </tbody>
-            <tfoot>
-                <tr style="font-weight: bold; background-color: #f0f0f0;">
-                    <td colspan="7" style="text-align: right;">
-                        Total cost for Cart #${sessionIndex}: ${sessionTotal.toFixed(2)} USD
-                    </td>
-                </tr>
-            </tfoot>
-        </table>
-    </div>
-    `;
+    </tbody>
+    <tfoot>
+        <tr style="font-weight: bold; background-color: #f0f0f0;">
+            <td colspan="7" style="text-align: right;">
+                Total cost for Cart #${sessionIndex}: ${sessionTotal.toFixed(2)} USD
+            </td>
+        </tr>
+    </tfoot>
+</table>
+</div>
+`;
 
             sessionIndex++;
         }
 
         if (!cartItems.length) {
             modalHtml += `
-    <div style="text-align: center; font-style: italic; color: gray; margin-bottom: 20px;">
-        There are currently no active carts
-    </div>
-    `;
+<div style="text-align: center; font-style: italic; color: gray; margin-bottom: 20px;">
+There are currently no active carts
+</div>
+`;
         }
         modalHtml += `
-    <div style="margin-top: 20px; font-size: 18px; text-align: right; font-weight: bold;">
-        Total amount: ${totalAmount.toFixed(2)} USD
-    </div>
-    <button onclick="closeCartModal()" style="margin-top: 20px; padding: 10px 20px;
-            background: #FFD700; color: white; border: none; border-radius: 4px;">Close</button>
+<div style="margin-top: 20px; font-size: 18px; text-align: right; font-weight: bold;">
+Total amount: ${totalAmount.toFixed(2)} USD
+</div>
+<button onclick="closeCartModal()" style="margin-top: 20px; padding: 10px 20px;
+    background: #FFD700; color: white; border: none; border-radius: 4px;">Close</button>
 </div>
 </div>
 `;
@@ -885,9 +893,9 @@ style="position: fixed; top: 22%; left: 50%; transform: translate(-50%, 0); widt
         let modalHtml = `
 <div id="cartModal"
 style="position: fixed; top: 22%; left: 50%; transform: translate(-50%, 0); width: 92%; height: 75%;
-    background: rgba(255, 255, 255, 0.95); border-radius: 10px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); overflow-y: auto; z-index: 1000;">
+background: rgba(255, 255, 255, 0.95); border-radius: 10px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); overflow-y: auto; z-index: 1000;">
 <div style="padding: 20px;">
-    `;
+`;
 
         let groupedCarts = {};
 
@@ -920,68 +928,68 @@ style="position: fixed; top: 22%; left: 50%; transform: translate(-50%, 0); widt
             const sessionTotal = items.reduce((sum, item) => sum + (item.total_price_position || 0), 0);
 
             modalHtml += `
-    <div style="border: 2px solid #808080; margin-bottom: 20px; border-radius: 8px; padding: 10px;">
-        <h3 style="text-align: left; color: #505050; margin-bottom: 10px;">
-            Cart #${sessionIndex}
-        </h3>
-        <table style="width: 100%; border-collapse: collapse; text-align: left; border: 1px solid #ccc;">
-            <thead>
-                <tr style="background-color: #808080; color: white;">
-                    <th>Created Time</th>
-                    <th>Name</th>
-                    <th>Size</th>
-                    <th>Article</th>
-                    <th>Quantity</th>
-                    <th>Price</th>
-                    <th>Total Price</th>
-                </tr>
-            </thead>
-            <tbody>
-                `;
+<div style="border: 2px solid #808080; margin-bottom: 20px; border-radius: 8px; padding: 10px;">
+<h3 style="text-align: left; color: #505050; margin-bottom: 10px;">
+    Cart #${sessionIndex}
+</h3>
+<table style="width: 100%; border-collapse: collapse; text-align: left; border: 1px solid #ccc;">
+    <thead>
+        <tr style="background-color: #808080; color: white;">
+            <th>Created Time</th>
+            <th>Name</th>
+            <th>Size</th>
+            <th>Article</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Total Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        `;
 
             items.forEach(item => {
                 modalHtml += `
-                <tr>
-                    <td>${formatToLocalTime(item.created_time)}</td>
-                    <td>${item.name ?? "N/A"}</td>
-                    <td>${item.size ?? "N/A"}</td>
-                    <td>${item.article ?? "N/A"}</td>
-                    <td>${item.quantity ?? 0}</td>
-                    <td>${item.price_per_unit?.toFixed(2) || "0.00"} USD</td>
-                    <td>${item.total_price_position?.toFixed(2) || "0.00"} USD</td>
-                </tr>
-                `;
+        <tr>
+            <td>${formatToLocalTime(item.created_time)}</td>
+            <td>${item.name ?? "N/A"}</td>
+            <td>${item.size ?? "N/A"}</td>
+            <td>${item.article ?? "N/A"}</td>
+            <td>${item.quantity ?? 0}</td>
+            <td>${item.price_per_unit?.toFixed(2) || "0.00"} USD</td>
+            <td>${item.total_price_position?.toFixed(2) || "0.00"} USD</td>
+        </tr>
+        `;
             });
 
             modalHtml += `
-            </tbody>
-            <tfoot>
-                <tr style="font-weight: bold; background-color: #f0f0f0;">
-                    <td colspan="7" style="text-align: right;">
-                        Total cost for Cart #${sessionIndex}: ${sessionTotal.toFixed(2)} USD
-                    </td>
-                </tr>
-            </tfoot>
-        </table>
-    </div>
-    `;
+    </tbody>
+    <tfoot>
+        <tr style="font-weight: bold; background-color: #f0f0f0;">
+            <td colspan="7" style="text-align: right;">
+                Total cost for Cart #${sessionIndex}: ${sessionTotal.toFixed(2)} USD
+            </td>
+        </tr>
+    </tfoot>
+</table>
+</div>
+`;
 
             sessionIndex++;
         }
 
         if (!cartItems.length) {
             modalHtml += `
-    <div style="text-align: center; font-style: italic; color: gray; margin-bottom: 20px;">
-        There are currently no active carts
-    </div>
-    `;
+<div style="text-align: center; font-style: italic; color: gray; margin-bottom: 20px;">
+There are currently no active carts
+</div>
+`;
         }
         modalHtml += `
-    <div style="margin-top: 20px; font-size: 18px; text-align: right; font-weight: bold;">
-        Total amount: ${totalAmount.toFixed(2)} USD
-    </div>
-    <button onclick="closeCartModal()" style="margin-top: 20px; padding: 10px 20px;
-            background: #FFD700; color: white; border: none; border-radius: 4px;">Close</button>
+<div style="margin-top: 20px; font-size: 18px; text-align: right; font-weight: bold;">
+Total amount: ${totalAmount.toFixed(2)} USD
+</div>
+<button onclick="closeCartModal()" style="margin-top: 20px; padding: 10px 20px;
+    background: #FFD700; color: white; border: none; border-radius: 4px;">Close</button>
 </div>
 </div>
 `;
@@ -1015,55 +1023,55 @@ style="position: fixed; top: 22%; left: 50%; transform: translate(-50%, 0); widt
         const modalHtml = `
 <div id="orderModal"
 style="position: fixed; top: 22%; left: 50%; transform: translate(-50%, 0); width: 92%; height: 75%;
-    background: rgba(255, 255, 255, 0.95); border-radius: 10px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); overflow-y: auto; z-index: 1000;">
+background: rgba(255, 255, 255, 0.95); border-radius: 10px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); overflow-y: auto; z-index: 1000;">
 <div style="padding: 20px;">
-    ${orders.length === 0
+${orders.length === 0
                 ? `<div style="text-align: center; padding: 10px; font-size: 16px;">No orders</div>`
                 : orders.map(order => `
-    <div style="border: 2px solid #808080; margin-bottom: 20px; border-radius: 8px; padding: 15px;">
-        <table style="width: 100%; border-collapse: collapse; text-align: left; border: 1px solid #ccc;">
-            <thead>
-                <tr style="background-color: #808080; color: white;">
-                    <th style="border: 1px solid #ddd; padding: 8px;">Order Number</th>
-                    <th class="fixed-column" style="border: 1px solid #ddd; padding: 8px;">First and Last Name</th>
-                    <th style="border: 1px solid #ddd; padding: 8px;">Telephone</th>
-                    <th class="fixed-column" style="border: 1px solid #ddd; padding: 8px;">Goods</th>
-                    <th style="border: 1px solid #ddd; padding: 8px;">Date</th>
-                    <th class="fixed-column" style="border: 1px solid #ddd; padding: 8px;">Sum</th>
-                    <th style="border: 1px solid #ddd; padding: 8px;">Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td " style=" border: 1px solid #ddd; padding: 8px;">${order.id}</td>
-                    <td class="fixed-column" style="border: 1px solid #ddd; padding: 8px;">${order.customerName}
-                    </td>
-                    <td style="border: 1px solid #ddd; padding: 8px;">${order.customerPhone}</td>
-                    <td class="fixed-column" style="border: 1px solid #ddd; padding: 8px;">${order.itemsDescription}
-                    </td>
-                    <td style="border: 1px solid #ddd; padding: 8px;">${new Date(order.orderDate).toLocaleString()}
-                    </td>
-                    <td class="fixed-column" style="border: 1px solid #ddd; padding: 8px;">
-                        ${order.totalPrice?.toFixed(2)} USD</td>
-                    <td style="border: 1px solid #ddd; padding: 8px;">${order.status}</td>
-                </tr>
-            </tbody>
-        </table>
-        <div style="text-align: right; margin-top: 10px;">
-            <button onclick="markAsCompleted(${order.id})"
-                style="background-color: #28a745; color: white; padding: 10px 20px; border: none; border-radius: 4px;">
-                Completed
-            </button>
-        </div>
-    </div>
-    `).join('')
+<div style="border: 2px solid #808080; margin-bottom: 20px; border-radius: 8px; padding: 15px;">
+<table style="width: 100%; border-collapse: collapse; text-align: left; border: 1px solid #ccc;">
+    <thead>
+        <tr style="background-color: #808080; color: white;">
+            <th style="border: 1px solid #ddd; padding: 8px;">Order Number</th>
+            <th class="fixed-column" style="border: 1px solid #ddd; padding: 8px;">First and Last Name</th>
+            <th style="border: 1px solid #ddd; padding: 8px;">Telephone</th>
+            <th class="fixed-column" style="border: 1px solid #ddd; padding: 8px;">Goods</th>
+            <th style="border: 1px solid #ddd; padding: 8px;">Date</th>
+            <th class="fixed-column" style="border: 1px solid #ddd; padding: 8px;">Sum</th>
+            <th style="border: 1px solid #ddd; padding: 8px;">Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td " style=" border: 1px solid #ddd; padding: 8px;">${order.id}</td>
+            <td class="fixed-column" style="border: 1px solid #ddd; padding: 8px;">${order.customerName}
+            </td>
+            <td style="border: 1px solid #ddd; padding: 8px;">${order.customerPhone}</td>
+            <td class="fixed-column" style="border: 1px solid #ddd; padding: 8px;">${order.itemsDescription}
+            </td>
+            <td style="border: 1px solid #ddd; padding: 8px;">${new Date(order.orderDate).toLocaleString()}
+            </td>
+            <td class="fixed-column" style="border: 1px solid #ddd; padding: 8px;">
+                ${order.totalPrice?.toFixed(2)} USD</td>
+            <td style="border: 1px solid #ddd; padding: 8px;">${order.status}</td>
+        </tr>
+    </tbody>
+</table>
+<div style="text-align: right; margin-top: 10px;">
+    <button onclick="markAsCompleted(${order.id})"
+        style="background-color: #28a745; color: white; padding: 10px 20px; border: none; border-radius: 4px;">
+        Completed
+    </button>
+</div>
+</div>
+`).join('')
             }
-    <div style="margin-top: 40px; text-align: left;">
-        <button onclick="closeOrderModal()"
-            style="padding: 10px 20px; background: #FFD700; color: white; border: none; border-radius: 4px; width: 100px;">
-            Close
-        </button>
-    </div>
+<div style="margin-top: 40px; text-align: left;">
+<button onclick="closeOrderModal()"
+    style="padding: 10px 20px; background: #FFD700; color: white; border: none; border-radius: 4px; width: 100px;">
+    Close
+</button>
+</div>
 </div>
 </div>
 `;
@@ -1160,51 +1168,89 @@ style="position: fixed; top: 22%; left: 50%; transform: translate(-50%, 0); widt
         document.getElementById("salesModal").style.display = "block";
     }
 
-    function loadSalesData() {
-        const emptyOrders = [];
-        displaySalesTable(emptyOrders);
-        closeSalesModal();
-    }
 
+    function loadSalesData() {
+        const startDate = document.getElementById("startDate").value;
+        const endDate = document.getElementById("endDate").value;
+
+        if (!startDate || !endDate) {
+            alert("Select both dates!");
+            return;
+        }
+
+        fetch(`/order/load-date-range?startDate=${startDate}&endDate=${endDate}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log("Received orders data:", data);
+
+                if (!Array.isArray(data.orders)) {
+                    console.error("Error: Expected array but received:", data.orders);
+                    alert("Unexpected data format!");
+                    return;
+                }
+
+                displayOrdersWithButton(data.orders.length ? data.orders : []);
+                closeSalesModal();
+                displaySalesTable(data.orders, data.totalAmount);
+            })
+            .catch(error => {
+                alert("Error: " + error.message);
+                console.error("Fetch error:", error);
+            });
+    }
     function closeSalesModal() {
         document.getElementById("salesModal").style.display = "none";
     }
 
-    function displaySalesTable(orders) {
+
+    function displaySalesTable(orders, totalAmount) {
+        console.log("Rendering orders table:", orders, "Total amount:", totalAmount);
+
         const modalHtml = `
-    <div id="salesTableModal" style="position: fixed; top: 22%; left: 50%; transform: translate(-50%, 0); width: 92%; height: 75%; background: rgba(255, 255, 255, 0.95); border-radius: 10px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); overflow-y: auto; z-index: 1000;">
-        <div style="padding: 20px;">
-            <table style="width: 100%; border-collapse: collapse; text-align: left; background-color: #ffffff; border: 1px solid white;">
-                <thead style="position: sticky; top: 0; z-index: 1;">
-                    <tr style="background-color: #89ac76; color: white;">
-                        <th style="border: 1px solid white; padding: 8px;">Order Number</th>
-                        <th style="border: 1px solid white; padding: 8px;">First and Last Name</th>
-                        <th style="border: 1px solid white; padding: 8px;">Telephone</th>
-                        <th style="border: 1px solid white; padding: 8px;">Goods</th>
-                        <th style="border: 1px solid white; padding: 8px;">Date</th>
-                        <th style="border: 1px solid white; padding: 8px;">Sum</th>
-                        <th style="border: 1px solid white; padding: 8px;">Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    ${orders.length === 0
+<div id="salesTableModal" style="position: fixed; top: 22%; left: 50%; transform: translate(-50%, 0); width: 92%; height: 75%; background: rgba(255, 255, 255, 0.95); border-radius: 10px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); overflow-y: auto; z-index: 1000;">
+<div style="padding: 20px;">
+    <table style="width: 100%; border-collapse: collapse; text-align: left; background-color: #ffffff; border: 1px solid white;">
+        <thead style="position: sticky; top: 0; z-index: 1;">
+            <tr style="background-color: #89ac76; color: white;">
+                <th style="border: 1px solid white; padding: 8px;">Order Number</th>
+                <th style="border: 1px solid white; padding: 8px;">First and Last Name</th>
+                <th style="border: 1px solid white; padding: 8px;">Telephone</th>
+                <th style="border: 1px solid white; padding: 8px;">Goods</th>
+                <th style="border: 1px solid white; padding: 8px;">Date</th>
+                <th style="border: 1px solid white; padding: 8px;">Sum</th>
+                <th style="border: 1px solid white; padding: 8px;">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            ${orders.length === 0
                 ? `<tr><td colspan="7" style="text-align: center; padding: 10px;">No orders</td></tr>`
                 : orders.map(order => `
-                            <tr>
-                                <td style="border: 1px solid white; padding: 8px;">${order.id}</td>
-                                <td style="border: 1px solid white; padding: 8px;">${order.customerName}</td>
-                                <td style="border: 1px solid white; padding: 8px;">${order.customerPhone}</td>
-                                <td style="border: 1px solid white; padding: 8px;">${order.itemsDescription}</td>
-                                <td style="border: 1px solid white; padding: 8px;">${new Date(order.orderDate).toLocaleString()}</td>
-                                <td style="border: 1px solid white; padding: 8px;">${order.totalPrice?.toFixed(2)} USD</td>
-                                <td style="border: 1px solid white; padding: 8px;">${order.status}</td>
-                            </tr>
-                        `).join('')}
-                </tbody>
-            </table>
-            <button onclick="closeSalesTableModal()" style="margin-top: 20px; padding: 10px 20px; background: #89ac76; color: white; border: none; border-radius: 4px;">Close</button>
-        </div>
-    </div>
+                    <tr>
+                        <td style="border: 1px solid white; padding: 8px;">${order.id}</td>
+                        <td style="border: 1px solid white; padding: 8px;">${order.customerName}</td>
+                        <td style="border: 1px solid white; padding: 8px;">${order.customerPhone}</td>
+                        <td style="border: 1px solid white; padding: 8px;">${order.itemsDescription}</td>
+                        <td style="border: 1px solid white; padding: 8px;">${new Date(order.orderDate).toLocaleString()}</td>
+                        <td style="border: 1px solid white; padding: 8px;">${order.totalPrice?.toFixed(2)} USD</td>
+                        <td style="border: 1px solid white; padding: 8px;">${order.status}</td>
+                    </tr>
+                `).join('')}
+
+            <tr style="font-weight: bold;">
+                <td colspan="5" style="border: 1px solid white; padding: 8px; text-align: right;">TOTAL AMOUNT</td>
+                <td style="border: 1px solid white; padding: 8px;">${totalAmount.toFixed(2)} USD</td> <!-
+                <td style="border: 1px solid white;"></td>
+            </tr>
+        </tbody>
+    </table>
+    <button onclick="closeSalesTableModal()" style="margin-top: 20px; padding: 10px 20px; background: #89ac76; color: white; border: none; border-radius: 4px;">Close</button>
+</div>
+</div>
 `;
         document.body.insertAdjacentHTML('beforeend', modalHtml);
     }
@@ -1212,7 +1258,6 @@ style="position: fixed; top: 22%; left: 50%; transform: translate(-50%, 0); widt
     function closeSalesTableModal() {
         document.getElementById("salesTableModal")?.remove();
     }
-
 
 </script>
 </body>
