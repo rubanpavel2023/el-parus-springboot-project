@@ -15,11 +15,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Pattern;
 
 @Service
@@ -268,5 +268,35 @@ public class OrderService {
                     .body(Map.of("error", "Database error"));
         }
     }
+
+    //FOR ADMIN -> SALES
+    public ResponseEntity<Map<String, Object>> getOrdersByStatusCompletedForPeriod(LocalDate startDate, LocalDate endDate) {
+        try {
+            LocalDateTime startDateTime = startDate.atStartOfDay();
+            LocalDateTime endDateTime = endDate.atTime(23, 59, 59);
+            List<Order> ordersCompleted = orderRepository.findCompletedOrdersByDateRange(startDateTime, endDateTime);
+            double totalAmount = calculateTotalAmount(ordersCompleted);
+            return ResponseEntity.ok(Map.of(
+                    "orders", ordersCompleted,
+                    "totalAmount", totalAmount));
+
+        } catch (DataAccessException ex) {
+            System.err.println("Error while working with database: " + ex.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("error", "Database error: failed to load orders data"));
+        }
+    }
+
+    public static double calculateTotalAmount(List<Order> ordersCompleted) {
+        double totalCompletedAmount = 0.0;
+
+        for (Order order : ordersCompleted) {
+            totalCompletedAmount += order.getTotalPrice();
+        }
+        return BigDecimal.valueOf(totalCompletedAmount)
+                .setScale(2, RoundingMode.HALF_UP)
+                .doubleValue();
+    }
+
 }
 

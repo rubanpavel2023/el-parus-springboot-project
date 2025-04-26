@@ -5,9 +5,11 @@ import com.example.el_parus_springboot_project.Repositories.OrderRepository;
 import com.example.el_parus_springboot_project.Service.OrderService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -75,6 +77,13 @@ public class OrderController {
     @DeleteMapping("/delete/completed")
     public ResponseEntity<Map<String, String>> deleteCompletedOrders() {
         return orderService.deleteOrderByStatusCompleted();
+    }
+
+    @GetMapping("/load-date-range")
+    public ResponseEntity<Map<String, Object>> loadOrdersByDateRange(
+            @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
+        return orderService.getOrdersByStatusCompletedForPeriod(startDate, endDate);
     }
 
 
