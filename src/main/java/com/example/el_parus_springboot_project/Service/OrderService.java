@@ -124,17 +124,6 @@ public class OrderService {
 
 
     //FOR ADMIN -> VIEW ORDERS
-    @Transactional
-    public ResponseEntity<List<?>> getAllOrders() {
-        try {
-            List<Order> orders = orderRepository.findAll();
-            return ResponseEntity.ok(orders);
-        } catch (DataAccessException ex) {
-            System.err.println("Error while working with database: " + ex.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(List.of("Database error: failed to load "));
-        }
-    }
 
     @Transactional
     public ResponseEntity<List<?>> getOrdersByPhone(String phone) {
