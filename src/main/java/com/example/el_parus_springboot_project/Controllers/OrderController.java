@@ -32,10 +32,6 @@ public class OrderController {
 
 
     //FOR ADMIN -> VIEW ORDERS
-    @GetMapping("/all")
-    public ResponseEntity<List<?>> getAllOrders() {
-        return orderService.getAllOrders();
-    }
 
     @GetMapping("/phone/{phone}")
     public ResponseEntity<List<?>> getOrdersByPhone(@PathVariable String phone) {
